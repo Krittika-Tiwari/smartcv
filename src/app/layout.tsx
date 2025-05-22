@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,7 +13,8 @@ export const metadata: Metadata = {
     template: "%s - SmartCV",
     absolute: "SmartCV",
   },
-  description: "SmartCV is the easiest way to create a proffessional resume that will help you land your dream job.",
+  description:
+    "SmartCV is the easiest way to create a proffessional resume that will help you land your dream job.",
 };
 
 export default function RootLayout({
@@ -20,8 +23,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body className={inter.className}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
