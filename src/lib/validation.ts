@@ -31,3 +31,13 @@ export const personalInfoSchema = z.object({
 });
 
 export type PersonalInfoType = z.infer<typeof personalInfoSchema>;
+
+export const resumeSchema = z.object({
+  ...generalInfoSchema.shape,
+  ...personalInfoSchema.shape,
+});
+
+export type ResumeType = Omit<z.infer<typeof resumeSchema>, "photo"> & {
+  id?: string;
+  photo?: string | File | null;
+};

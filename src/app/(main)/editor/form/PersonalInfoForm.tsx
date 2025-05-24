@@ -13,17 +13,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { personalInfoSchema, PersonalInfoType } from "@/lib/validation";
 import { useDebouncedEffect } from "@/hooks/useDebounce";
-export default function PersonalInfoForm() {
+import { EditorFormProps } from "@/lib/type";
+export default function PersonalInfoForm({
+  resumeData,
+  setResumeData,
+}: EditorFormProps) {
   const form = useForm<PersonalInfoType>({
     resolver: zodResolver(personalInfoSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      jobTitle: "",
-      city: "",
-      country: "",
-      email: "",
-      phone: "",
+      firstName: resumeData.firstName || "",
+      lastName: resumeData.lastName || "",
+      jobTitle: resumeData.jobTitle || "",
+      city: resumeData.city || "",
+      country: resumeData.country || "",
+      email: resumeData.email || "",
+      phone: resumeData.phone || "",
     },
   });
 
@@ -34,13 +38,12 @@ export default function PersonalInfoForm() {
       const save = async () => {
         const isValid = await form.trigger();
         if (isValid) {
-          console.log("Auto-saving:", values);
-          // setResumeData(values);
+          setResumeData({ ...resumeData, ...values });
         }
       };
       save();
     },
-    [values],
+    [values, resumeData, setResumeData],
     500,
   );
 
