@@ -11,15 +11,36 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { EditorFormProps } from "@/lib/type";
+import { useDebouncedEffect } from "@/hooks/useDebounce";
 
-export default function GeneralInfoForm() {
+export default function GeneralInfoForm({
+  resumeData,
+  setResumeData,
+}: EditorFormProps) {
   const form = useForm<GeneralInfoType>({
     resolver: zodResolver(generalInfoSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: resumeData.title || "",
+      description: resumeData.description || "",
     },
   });
+
+  const values = form.watch();
+
+  useDebouncedEffect(
+    () => {
+      const save = async () => {
+        const isValid = await form.trigger();
+        if (isValid) {
+          setResumeData({ ...resumeData, ...values });
+        }
+      };
+      save();
+    },
+    [values, resumeData, setResumeData],
+    500,
+  );
   return (
     <div className="max-w-xl mx-auto space-y-6">
       <div className="space-y-1.5 text-center">
