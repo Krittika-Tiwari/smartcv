@@ -39,14 +39,14 @@ export default function GeneralInfoForm({
       save();
     },
     [values, resumeData, setResumeData],
-    500,
+    100,
   );
   return (
     <div className="max-w-xl mx-auto space-y-6">
       <div className="space-y-1.5 text-center">
         <h2 className="text-2xl font-semibold">General info</h2>
         <p className="text-sm text-muted-foreground">
-          This will not appear on your resume.
+          This will not appear on your resume
         </p>
       </div>
       <Form {...form}>

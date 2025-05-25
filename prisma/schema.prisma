@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 // prisma/schema.prisma
@@ -16,15 +15,15 @@ datasource db {
 }
 
 model Resume {
-  id          String  @id @default(cuid())
-  userId      String
+  id     String @id @default(cuid())
+  userId String
 
   title       String?
   description String?
 
   photoUrl    String?
-  colorHex    String   @default("#000000")
-  borderStyle String   @default("squircle")
+  colorHex    String  @default("#000000")
+  borderStyle String  @default("squircle")
   summary     String?
   firstName   String?
   lastName    String?
@@ -34,8 +33,28 @@ model Resume {
   phone       String?
   email       String?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  worksExperiences WorkExperience[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("resumes")
+}
+
+model WorkExperience {
+  id String @id @default(cuid())
+
+  position    String?
+  company     String?
+  startdate   DateTime?
+  endDate     DateTime?
+  description String?
+
+  resumeId String
+  resume   Resume @relation(fields: [resumeId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("work_experiences")
 }

@@ -32,9 +32,26 @@ export const personalInfoSchema = z.object({
 
 export type PersonalInfoType = z.infer<typeof personalInfoSchema>;
 
+export const workExperienceSchema = z.object({
+  workExperience: z
+    .array(
+      z.object({
+        company: optionalString,
+        position: optionalString,
+        startDate: optionalString,
+        endDate: optionalString,
+        description: optionalString,
+      }),
+    )
+    .optional(),
+});
+
+export type WorkExperienceType = z.infer<typeof workExperienceSchema>;
+
 export const resumeSchema = z.object({
   ...generalInfoSchema.shape,
   ...personalInfoSchema.shape,
+  ...workExperienceSchema.shape,
 });
 
 export type ResumeType = Omit<z.infer<typeof resumeSchema>, "photo"> & {
