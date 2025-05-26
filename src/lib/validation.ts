@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { string, z } from "zod";
 
 export const optionalString = z.string().trim().optional().or(z.literal(""));
 
@@ -33,7 +33,7 @@ export const personalInfoSchema = z.object({
 export type PersonalInfoType = z.infer<typeof personalInfoSchema>;
 
 export const workExperienceSchema = z.object({
-  workExperience: z
+  workExperiences: z
     .array(
       z.object({
         company: optionalString,
@@ -48,10 +48,33 @@ export const workExperienceSchema = z.object({
 
 export type WorkExperienceType = z.infer<typeof workExperienceSchema>;
 
+export const eductionSchema = z.object({
+  educations: z
+    .array(
+      z.object({
+        school: optionalString,
+        degree: optionalString,
+        startDate: optionalString,
+        endDate: optionalString,
+      }),
+    )
+    .optional(),
+});
+
+export type EducationType = z.infer<typeof eductionSchema>;
+
+export const skillSchema = z.object({
+  skills: z.array(string().trim()).optional(),
+});
+
+export type SkillType = z.infer<typeof skillSchema>;
+
 export const resumeSchema = z.object({
   ...generalInfoSchema.shape,
   ...personalInfoSchema.shape,
   ...workExperienceSchema.shape,
+  ...eductionSchema.shape,
+  ...skillSchema.shape,
 });
 
 export type ResumeType = Omit<z.infer<typeof resumeSchema>, "photo"> & {
