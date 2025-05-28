@@ -44,7 +44,7 @@ export default function ResumeEditor() {
               />
             )}
           </div>
-          <div className="grow md:border-r" />{" "}
+          <div className="grow md:border-r" />
           <ResumePreviewSection
             resumeData={resumeData}
             setResumeDate={setResumeData}
