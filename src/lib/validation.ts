@@ -82,7 +82,7 @@ export const resumeSchema = z.object({
   ...skillSchema.shape,
   ...summarySchema.shape,
   colorHex: optionalString,
-  boderStyle: optionalString,
+  borderStyle: optionalString,
 });
 
 export type ResumeType = Omit<z.infer<typeof resumeSchema>, "photo"> & {
