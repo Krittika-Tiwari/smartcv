@@ -1,22 +1,34 @@
+import BorderStyleButton from "@/components/BorderStyleButton";
 import ColorPicker from "@/components/ColorPicker";
 import ResumePreview from "@/components/ResumePreview";
+import { cn } from "@/lib/utils";
 import { ResumeType } from "@/lib/validation";
 
 interface ResumePreviewSectionProps {
   resumeData: ResumeType;
   setResumeDate: (data: ResumeType) => void;
+  className?: string;
 }
 export default function ResumePreviewSection({
   resumeData,
   setResumeDate,
+  className,
 }: ResumePreviewSectionProps) {
   return (
-    <div className="relative hidden w-1/2 md:flex">
-      <div className="absolute top-1 left-1 flex flex-none flex-col gap-3 lg:left-3 lg:top-3">
+    <div
+      className={cn("group relative hidden md:w-1/2 md:flex w-full", className)}
+    >
+      <div className=" absolute top-1 left-1 flex flex-none flex-col gap-3 opacity-50 xl:opacity-100 group-hover:opacity-100 transition-opacity lg:left-3 lg:top-3">
         <ColorPicker
           color={resumeData.colorHex}
           onChange={(color) =>
             setResumeDate({ ...resumeData, colorHex: color.hex })
+          }
+        />
+        <BorderStyleButton
+          borderStyle={resumeData.borderStyle}
+          onChange={(borderStyle) =>
+            setResumeDate({ ...resumeData, borderStyle })
           }
         />
       </div>
