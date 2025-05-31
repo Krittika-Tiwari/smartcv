@@ -116,6 +116,7 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
 
 function SummarySection({ resumeData }: ResumeSectionProps) {
   const { summary, colorHex } = resumeData;
+  if (!summary) return null;
   return (
     <>
       <hr className="border-2 bg-gray-300" style={{ borderColor: colorHex }} />
