@@ -45,8 +45,8 @@ export default function PersonalInfoForm({
       };
       save();
     },
-    [values, resumeData, setResumeData],
-    500,
+    [values],
+    1000,
   );
 
   const photoInputRef = useRef<HTMLInputElement>(null);

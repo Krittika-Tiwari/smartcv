@@ -36,8 +36,8 @@ export default function SummaryForm({
       };
       save();
     },
-    [values, resumeData, setResumeData],
-    100,
+    [values],
+    1000,
   );
 
   return (
