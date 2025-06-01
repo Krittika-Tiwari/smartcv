@@ -38,8 +38,8 @@ export default function GeneralInfoForm({
       };
       save();
     },
-    [values, resumeData, setResumeData],
-    100,
+    [values],
+    1000,
   );
   return (
     <div className="max-w-xl mx-auto space-y-6">

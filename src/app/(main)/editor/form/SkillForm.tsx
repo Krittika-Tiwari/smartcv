@@ -44,8 +44,8 @@ export default function SkillForm({
       };
       save();
     },
-    [values, resumeData, setResumeData],
-    100,
+    [values],
+    1000,
   );
 
   return (

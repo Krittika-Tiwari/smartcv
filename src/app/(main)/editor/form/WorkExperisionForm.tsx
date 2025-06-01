@@ -63,8 +63,8 @@ export default function WorkExperision({
       };
       save();
     },
-    [values, resumeData, setResumeData],
-    100,
+    [values],
+    1000,
   );
 
   const { fields, append, remove, move } = useFieldArray({
