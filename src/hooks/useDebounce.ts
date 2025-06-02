@@ -6,6 +6,7 @@ export function useDebouncedEffect(
   delay: number,
 ) {
   useEffect(() => {
+    console.log("useDebouncedEffect", deps);
     const handler = setTimeout(() => {
       effect();
     }, delay);
@@ -13,7 +14,7 @@ export function useDebouncedEffect(
     return () => {
       clearTimeout(handler);
     };
-  }, [deps]);
+  }, [...deps, delay]);
 }
 
 export function useDebounce<T>(value: T, delay: number = 300) {

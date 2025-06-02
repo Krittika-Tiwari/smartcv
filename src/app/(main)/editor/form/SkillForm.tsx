@@ -13,7 +13,7 @@ import { useDebouncedEffect } from "@/hooks/useDebounce";
 import { EditorFormProps } from "@/lib/type";
 import { skillSchema, SkillType } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 export default function SkillForm({
   resumeData,
@@ -26,7 +26,7 @@ export default function SkillForm({
     },
   });
 
-  const values = form.watch();
+  const values = useWatch({ control: form.control });
   useDebouncedEffect(
     () => {
       const save = async () => {
