@@ -11,7 +11,7 @@ import { useDebouncedEffect } from "@/hooks/useDebounce";
 import { EditorFormProps } from "@/lib/type";
 import { SummaryType, summarySchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 export default function SummaryForm({
   resumeData,
@@ -24,7 +24,7 @@ export default function SummaryForm({
     },
   });
 
-  const values = form.watch();
+  const values = useWatch({ control: form.control });
 
   useDebouncedEffect(
     () => {

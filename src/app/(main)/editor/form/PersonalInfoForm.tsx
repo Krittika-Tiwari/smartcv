@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -33,7 +33,7 @@ export default function PersonalInfoForm({
     },
   });
 
-  const values = form.watch();
+  const values = useWatch({ control: form.control });
 
   useDebouncedEffect(
     () => {

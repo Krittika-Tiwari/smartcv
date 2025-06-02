@@ -15,7 +15,12 @@ import { EditorFormProps } from "@/lib/type";
 import { workExperienceSchema, WorkExperienceType } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GripHorizontal } from "lucide-react";
-import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
+import {
+  useFieldArray,
+  useForm,
+  UseFormReturn,
+  useWatch,
+} from "react-hook-form";
 import {
   closestCenter,
   DndContext,
@@ -47,7 +52,7 @@ export default function WorkExperision({
     },
   });
 
-  const values = form.watch();
+  const values = useWatch({ control: form.control });
 
   useDebouncedEffect(
     () => {
