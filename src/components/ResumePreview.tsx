@@ -33,6 +33,7 @@ export default function ResumePreview({
         <PersonalInfoHeader resumeData={resumeData} />
         <SummarySection resumeData={resumeData} />
         <WorkExperisionSection resumeData={resumeData} />
+        <ProjectSection resumeData={resumeData} />
         <EductionSection resumeData={resumeData} />
         <SkillsSection resumeData={resumeData} />
       </div>
@@ -171,6 +172,60 @@ function WorkExperisionSection({ resumeData }: ResumeSectionProps) {
   );
 }
 
+function ProjectSection({ resumeData }: ResumeSectionProps) {
+  const { projects, colorHex } = resumeData;
+
+  const projectsNotEmpty = projects?.filter(
+    (pro) => Object.values(pro).filter(Boolean).length > 0,
+  );
+
+  if (!projectsNotEmpty?.length) return null;
+
+  return (
+    <>
+      <hr className="border-2 bg-gray-300" style={{ borderColor: colorHex }} />
+      <div className="space-y-3">
+        <p className="text-lg font-semibold" style={{ color: colorHex }}>
+          Project
+        </p>
+        {projectsNotEmpty.map((pro, index) => (
+          <div key={index} className="break-after-avoid space-y-1">
+            <div
+              className="flex items-center justify-between text-sm font-semibold"
+              style={{ color: colorHex }}
+            >
+              <span>
+                {pro.url ? (
+                  <a
+                    href={pro.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline"
+                  >
+                    {pro.name}
+                  </a>
+                ) : (
+                  pro.name
+                )}
+              </span>
+
+              {pro.startDate && (
+                <span>
+                  {formatDate(pro.startDate, "MM/yyyy")} -{" "}
+                  {pro.endDate
+                    ? formatDate(pro.endDate, "MM/yyyy")
+                    : "Present"}{" "}
+                </span>
+              )}
+            </div>
+
+            <div className="whitespace-pre-line text-xs">{pro.description}</div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
 function EductionSection({ resumeData }: ResumeSectionProps) {
   const { educations, colorHex } = resumeData;
 

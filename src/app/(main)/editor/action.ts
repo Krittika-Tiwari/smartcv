@@ -71,6 +71,14 @@ export async function saveResume(values: ResumeType) {
             endDate: exp.endDate ? new Date(exp.endDate) : undefined,
           })),
         },
+        projects: {
+          deleteMany: {},
+          create: values.projects?.map((pro) => ({
+            ...pro,
+            startDate: pro.startDate ? new Date(pro.startDate) : undefined,
+            endDate: pro.endDate ? new Date(pro.endDate) : undefined,
+          })),
+        },
         updatedAt: new Date(),
       },
     });
@@ -92,6 +100,13 @@ export async function saveResume(values: ResumeType) {
             ...exp,
             startDate: exp.startDate ? new Date(exp.startDate) : undefined,
             endDate: exp.endDate ? new Date(exp.endDate) : undefined,
+          })),
+        },
+        projects: {
+          create: values.projects?.map((pro) => ({
+            ...pro,
+            startDate: pro.startDate ? new Date(pro.startDate) : undefined,
+            endDate: pro.endDate ? new Date(pro.endDate) : undefined,
           })),
         },
       },
