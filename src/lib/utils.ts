@@ -42,6 +42,13 @@ export function mapToResumeValues(data: ResumeServerData): ResumeType {
       startDate: edu.startDate?.toISOString().split("T")[0],
       endDate: edu.endDate?.toISOString().split("T")[0],
     })),
+    projects: data.projects.map((project) => ({
+      name: project.name || undefined,
+      description: project.description || undefined,
+      url: project.url || undefined,
+      startDate: project.startDate?.toISOString().split("T")[0],
+      endDate: project.endDate?.toISOString().split("T")[0],
+    })),
     skills: data.skills,
     borderStyle: data.borderStyle,
     colorHex: data.colorHex,
