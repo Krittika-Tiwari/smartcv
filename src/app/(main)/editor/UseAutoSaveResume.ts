@@ -4,11 +4,12 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { saveResume } from "./action";
 import { toast } from "sonner";
+import { fileReplacer } from "@/lib/utils";
 
 export default function UseAutoSaveResume(resumeData: ResumeType) {
   const searchParams = useSearchParams();
 
-  const DebounceResumeData = useDebounce(resumeData, 500);
+  const DebounceResumeData = useDebounce(resumeData, 1500);
 
   const [resumeId, setResumeId] = useState(resumeData.id);
 
@@ -33,8 +34,8 @@ export default function UseAutoSaveResume(resumeData: ResumeType) {
 
         const updatedData = await saveResume({
           ...newData,
-          ...(lastSavedResumeData.photo?.toString() ===
-            newData.photo?.toString() && {
+          ...(JSON.stringify(lastSavedResumeData.photo, fileReplacer) ===
+            JSON.stringify(newData.photo, fileReplacer) && {
             photo: undefined,
           }),
           id: resumeId,
@@ -68,11 +69,22 @@ export default function UseAutoSaveResume(resumeData: ResumeType) {
       }
     }
 
+    console.log(
+      "debouncedResumeData",
+      JSON.stringify(DebounceResumeData, fileReplacer),
+    );
+    console.log(
+      "lastSavedData",
+      JSON.stringify(lastSavedResumeData, fileReplacer),
+    );
+
     const hasUnsavedChanges =
-      JSON.stringify(lastSavedResumeData) !==
-      JSON.stringify(DebounceResumeData);
+      JSON.stringify(lastSavedResumeData, fileReplacer) !==
+      JSON.stringify(DebounceResumeData, fileReplacer);
+
     if (hasUnsavedChanges && DebounceResumeData && !isSaving) {
       save();
+      console.log("saved");
     }
   }, [
     DebounceResumeData,

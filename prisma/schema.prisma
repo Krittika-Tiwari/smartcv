@@ -33,9 +33,9 @@ model Resume {
   phone       String?
   email       String?
 
-  worksExperiences WorkExperience[]
-  eductions        Eduction[]
-  skills           String[]
+  workExperiences WorkExperience[]
+  educations      Education[]
+  skills          String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -61,7 +61,7 @@ model WorkExperience {
   @@map("work_experiences")
 }
 
-model Eduction {
+model Education {
   id String @id @default(cuid())
 
   degree    String?
@@ -75,5 +75,5 @@ model Eduction {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("eductions")
+  @@map("educations")
 }
