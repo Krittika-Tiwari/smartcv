@@ -1,5 +1,5 @@
 import { generalInfoSchema, GeneralInfoType } from "@/lib/validation";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { EditorFormProps } from "@/lib/type";
-import { useDebouncedEffect } from "@/hooks/useDebounce";
+import { useDebouncedForm } from "@/hooks/useDebounce";
 
 export default function GeneralInfoForm({
   resumeData,
@@ -26,21 +26,12 @@ export default function GeneralInfoForm({
     },
   });
 
-  const values = useWatch({ control: form.control });
-
-  useDebouncedEffect(
-    () => {
-      const save = async () => {
-        const isValid = await form.trigger();
-        if (isValid) {
-          setResumeData({ ...resumeData, ...values });
-        }
-      };
-      save();
+  useDebouncedForm({
+    form,
+    onValueChange(values) {
+      setResumeData({ ...resumeData, ...values });
     },
-    [values],
-    1000,
-  );
+  });
   return (
     <div className="max-w-xl mx-auto space-y-6">
       <div className="space-y-1.5 text-center">

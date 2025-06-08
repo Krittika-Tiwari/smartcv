@@ -5,9 +5,10 @@ import { resumeSchema, ResumeType } from "@/lib/validation";
 import { auth } from "@clerk/nextjs/server";
 import { del, put } from "@vercel/blob";
 import path from "path";
-
+import { v4 as uuidv4 } from "uuid";
 export async function saveResume(values: ResumeType) {
   const { id } = values;
+  console.log("recived values", values);
 
   const { photo, workExperiences, educations, ...resumeValues } =
     resumeSchema.parse(values);
@@ -33,8 +34,10 @@ export async function saveResume(values: ResumeType) {
     if (existingResume?.photoUrl) {
       await del(existingResume.photoUrl);
     }
+    const ext = path.extname(photo.name); // e.g., ".png"
+    const uniqueFileName = `resume_photos/${uuidv4()}${ext}`;
 
-    const blob = await put(`resume_photos/${path.extname(photo.name)}`, photo, {
+    const blob = await put(uniqueFileName, photo, {
       access: "public",
     });
 
@@ -52,7 +55,7 @@ export async function saveResume(values: ResumeType) {
       data: {
         ...resumeValues,
         photoUrl: newPhotoUrl,
-        worksExperiences: {
+        workExperiences: {
           deleteMany: {},
           create: workExperiences?.map((exp) => ({
             ...exp,
@@ -60,7 +63,7 @@ export async function saveResume(values: ResumeType) {
             endDate: exp.endDate ? new Date(exp.endDate) : undefined,
           })),
         },
-        eductions: {
+        educations: {
           deleteMany: {},
           create: educations?.map((exp) => ({
             ...exp,
@@ -77,14 +80,14 @@ export async function saveResume(values: ResumeType) {
         ...resumeValues,
         userId,
         photoUrl: newPhotoUrl,
-        worksExperiences: {
+        workExperiences: {
           create: workExperiences?.map((exp) => ({
             ...exp,
             startDate: exp.startDate ? new Date(exp.startDate) : undefined,
             endDate: exp.endDate ? new Date(exp.endDate) : undefined,
           })),
         },
-        eductions: {
+        educations: {
           create: educations?.map((exp) => ({
             ...exp,
             startDate: exp.startDate ? new Date(exp.startDate) : undefined,

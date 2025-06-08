@@ -27,15 +27,15 @@ model Resume {
   summary     String?
   firstName   String?
   lastName    String?
-  jobTItle    String?
+  jobTitle    String?
   city        String?
   country     String?
   phone       String?
   email       String?
 
-  worksExperiences WorkExperience[]
-  eductions        Eduction[]
-  skills           String[]
+  workExperiences WorkExperience[]
+  educations      Education[]
+  skills          String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -48,7 +48,7 @@ model WorkExperience {
 
   position    String?
   company     String?
-  startdate   DateTime?
+  startDate   DateTime?
   endDate     DateTime?
   description String?
 
@@ -61,12 +61,12 @@ model WorkExperience {
   @@map("work_experiences")
 }
 
-model Eduction {
+model Education {
   id String @id @default(cuid())
 
   degree    String?
   school    String?
-  startdate DateTime?
+  startDate DateTime?
   endDate   DateTime?
 
   resumeId String
@@ -75,5 +75,5 @@ model Eduction {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("eductions")
+  @@map("educations")
 }

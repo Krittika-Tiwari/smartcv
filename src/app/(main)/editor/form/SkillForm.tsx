@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/form";
 
 import { Textarea } from "@/components/ui/textarea";
-import { useDebouncedEffect } from "@/hooks/useDebounce";
+import { useDebouncedForm } from "@/hooks/useDebounce";
 import { EditorFormProps } from "@/lib/type";
 import { skillSchema, SkillType } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 export default function SkillForm({
   resumeData,
@@ -26,27 +26,17 @@ export default function SkillForm({
     },
   });
 
-  const values = useWatch({ control: form.control });
-  useDebouncedEffect(
-    () => {
-      const save = async () => {
-        const isValid = await form.trigger();
-        if (isValid) {
-          setResumeData({
-            ...resumeData,
-            skills:
-              values.skills
-                ?.filter((skill) => skill !== undefined)
-                .map((skill) => skill.trim())
-                .filter((skill) => skill !== "") || [],
-          });
-        }
-      };
-      save();
+  useDebouncedForm({
+    form,
+    onValueChange(values) {
+      setResumeData({
+        ...resumeData,
+        skills: values.skills
+          ?.map((skill) => skill.trim())
+          .filter((skill) => skill !== ""),
+      });
     },
-    [values],
-    1000,
-  );
+  });
 
   return (
     <div className="max-w-xl mx-auto space-y-6">
