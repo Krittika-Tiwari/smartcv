@@ -27,7 +27,7 @@ model Resume {
   summary     String?
   firstName   String?
   lastName    String?
-  jobTItle    String?
+  jobTitle    String?
   city        String?
   country     String?
   phone       String?
@@ -48,7 +48,7 @@ model WorkExperience {
 
   position    String?
   company     String?
-  startdate   DateTime?
+  startDate   DateTime?
   endDate     DateTime?
   description String?
 
@@ -66,7 +66,7 @@ model Eduction {
 
   degree    String?
   school    String?
-  startdate DateTime?
+  startDate DateTime?
   endDate   DateTime?
 
   resumeId String

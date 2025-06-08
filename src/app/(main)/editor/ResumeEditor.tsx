@@ -19,7 +19,6 @@ export default function ResumeEditor() {
     useState<boolean>(false);
   const { isSaving, hasUnsavedChanges } = UseAutoSaveResume(resumeData);
 
-  console.log("hasUnsavedChanges", hasUnsavedChanges);
   useUnlodeWarning(hasUnsavedChanges);
   const currentStep = searchParams.get("step") || steps[0].key;
 

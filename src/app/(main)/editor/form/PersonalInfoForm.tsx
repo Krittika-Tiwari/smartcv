@@ -1,4 +1,4 @@
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { personalInfoSchema, PersonalInfoType } from "@/lib/validation";
-import { useDebouncedEffect } from "@/hooks/useDebounce";
+import { useDebouncedForm } from "@/hooks/useDebounce";
 import { EditorFormProps } from "@/lib/type";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -33,21 +33,12 @@ export default function PersonalInfoForm({
     },
   });
 
-  const values = useWatch({ control: form.control });
-
-  useDebouncedEffect(
-    () => {
-      const save = async () => {
-        const isValid = await form.trigger();
-        if (isValid) {
-          setResumeData({ ...resumeData, ...values });
-        }
-      };
-      save();
+  useDebouncedForm({
+    form,
+    onValueChange(values) {
+      setResumeData({ ...resumeData, ...values });
     },
-    [values],
-    1000,
-  );
+  });
 
   const photoInputRef = useRef<HTMLInputElement>(null);
   return (

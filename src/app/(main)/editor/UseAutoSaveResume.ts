@@ -51,10 +51,20 @@ export default function UseAutoSaveResume(resumeData: ResumeType) {
             `?${newSearchParams.toString()}`,
           );
         }
-        setIsSaving(false);
       } catch (error) {
         setError(true);
         console.error(error);
+        toast.error("Something went wrong", {
+          description: "Your changes could not be saved. Please try again.",
+          action: {
+            label: "Retry",
+            onClick: () => {
+              save();
+            },
+          },
+        });
+      } finally {
+        setIsSaving(false);
       }
     }
 
@@ -62,10 +72,16 @@ export default function UseAutoSaveResume(resumeData: ResumeType) {
       JSON.stringify(lastSavedResumeData) !==
       JSON.stringify(DebounceResumeData);
     if (hasUnsavedChanges && DebounceResumeData && !isSaving) {
-      console.log("saving");
       save();
     }
-  }, [DebounceResumeData, lastSavedResumeData, isSaving]);
+  }, [
+    DebounceResumeData,
+    lastSavedResumeData,
+    isSaving,
+    error,
+    resumeId,
+    searchParams,
+  ]);
   return {
     isSaving,
     hasUnsavedChanges:

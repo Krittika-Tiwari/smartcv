@@ -10,17 +10,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useDebouncedEffect } from "@/hooks/useDebounce";
+import { useDebouncedForm } from "@/hooks/useDebounce";
 import { EditorFormProps } from "@/lib/type";
 import { workExperienceSchema, WorkExperienceType } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GripHorizontal } from "lucide-react";
-import {
-  useFieldArray,
-  useForm,
-  UseFormReturn,
-  useWatch,
-} from "react-hook-form";
+import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 import {
   closestCenter,
   DndContext,
@@ -52,25 +47,16 @@ export default function WorkExperision({
     },
   });
 
-  const values = useWatch({ control: form.control });
-
-  useDebouncedEffect(
-    () => {
-      const save = async () => {
-        const isValid = await form.trigger();
-        if (isValid) {
-          setResumeData({
-            ...resumeData,
-            workExperiences:
-              values.workExperiences?.filter((exp) => exp !== undefined) || [],
-          });
-        }
-      };
-      save();
+  useDebouncedForm({
+    form,
+    onValueChange(values) {
+      setResumeData({
+        ...resumeData,
+        workExperiences:
+          values.workExperiences?.filter((exp) => exp !== undefined) || [],
+      });
     },
-    [values],
-    1000,
-  );
+  });
 
   const { fields, append, remove, move } = useFieldArray({
     control: form.control,
