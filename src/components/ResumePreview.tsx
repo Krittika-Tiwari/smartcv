@@ -196,14 +196,12 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
             >
               <span>
                 {pro.url ? (
-                  <a
-                    href={pro.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline"
+                  <span
+                    onClick={() => window.open(pro.url, "_blank")}
+                    className="hover:underline text-blue-600 cursor-pointer"
                   >
                     {pro.name}
-                  </a>
+                  </span>
                 ) : (
                   pro.name
                 )}
