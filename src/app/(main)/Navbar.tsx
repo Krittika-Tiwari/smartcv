@@ -17,8 +17,8 @@ export default function Navbar() {
           <Image
             src={logo}
             alt="logo"
-            width={35}
-            height={35}
+            width={40}
+            height={40}
             className="rounded-full"
           />
           <span className="text-xl font-bold tracking-tight">SmartCv</span>
