@@ -26,18 +26,31 @@ export default async function page() {
   ]);
 
   return (
-    <main className="max-w-7xl mx-auto w-full px-3 py-6 space-x-6">
-      <Button asChild className="mx-auto w-fit flex gap-2">
-        <Link href="/editor">
-          <PlusSquare className="size-5" />
-          New resume
-        </Link>
-      </Button>
-      <div className="space-y-1 ">
-        <h1 className="text-3xl font-bold">Your resumes</h1>
-        <p>Total:{totalCount}</p>
+    <main className="max-w-7xl mx-auto w-full px-6 py-12">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-10">
+        <div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Your Resumes
+          </h1>
+          <p className="text-xs text-slate-500">
+            You have <span className="font-medium">{totalCount}</span> resume
+            {totalCount !== 1 && "s"} saved.
+          </p>
+        </div>
+
+        <Button
+          asChild
+          size="xl"
+          className="bg-violet-700 hover:bg-violet-800 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-transform hover:scale-105"
+        >
+          <Link href="/editor" className="flex items-center gap-2">
+            <PlusSquare className="size-5" />
+            New Resume
+          </Link>
+        </Button>
       </div>
-      <div className="flex flex-col sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-3">
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {resumes.map((resume) => (
           <ResumeItem key={resume.id} resume={resume} />
         ))}
