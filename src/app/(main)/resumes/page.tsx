@@ -32,7 +32,7 @@ export default async function page() {
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
             Your Resumes
           </h1>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted-foreground">
             You have <span className="font-medium">{totalCount}</span> resume
             {totalCount !== 1 && "s"} saved.
           </p>
