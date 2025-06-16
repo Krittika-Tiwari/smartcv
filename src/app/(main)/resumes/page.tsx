@@ -26,7 +26,7 @@ export default async function page() {
   ]);
 
   return (
-    <main className="max-w-7xl mx-auto w-full px-6 py-12">
+    <main className="relative  max-w-7xl mx-auto w-full px-6 py-24">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-10">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
@@ -41,7 +41,7 @@ export default async function page() {
         <Button
           asChild
           size="xl"
-          className="bg-violet-700 hover:bg-violet-800 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-transform hover:scale-105"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-transform hover:scale-105"
         >
           <Link href="/editor" className="flex items-center gap-2">
             <PlusSquare className="size-5" />

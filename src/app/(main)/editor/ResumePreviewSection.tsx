@@ -8,11 +8,13 @@ interface ResumePreviewSectionProps {
   resumeData: ResumeType;
   setResumeDate: (data: ResumeType) => void;
   className?: string;
+  contentRef?: React.Ref<HTMLDivElement>;
 }
 export default function ResumePreviewSection({
   resumeData,
   setResumeDate,
   className,
+  contentRef,
 }: ResumePreviewSectionProps) {
   return (
     <div
@@ -36,6 +38,7 @@ export default function ResumePreviewSection({
         <ResumePreview
           resumeData={resumeData}
           className="max-w-2xl shadow-md"
+          contentRef={contentRef}
         />
       </div>
     </div>
