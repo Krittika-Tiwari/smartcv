@@ -11,9 +11,9 @@ import { dark } from "@clerk/themes";
 export default function Navbar() {
   const { theme } = useTheme();
   return (
-    <header className="shadow-sm ">
+    <header className="fixed top-0 left-0 w-full z-20 shadow-sm bg-transparent backdrop-blur-3xl">
       <div className="max-w-7xl mx-auto p-3 flex items-center justify-between gap-3">
-        <Link href="/resumes" className="flex items-center gap-2">
+        <Link href="/resumes" className="flex items-center ">
           <Image
             src={logo}
             alt="logo"

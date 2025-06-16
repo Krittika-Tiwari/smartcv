@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import ResumeEditor from "./ResumeEditor";
 import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { ResumeDataInclude } from "@/lib/type";
+import ResumeEditorContainer from "./ResumeEditorContainer";
 
 interface PageProps {
   searchParams: Promise<{ resumeId?: string }>;
@@ -25,5 +25,5 @@ export default async function Page({ searchParams }: PageProps) {
       })
     : null;
 
-  return <ResumeEditor resumeToEdit={resumeToEdit} />;
+  return <ResumeEditorContainer resumeToEdit={resumeToEdit} />;
 }

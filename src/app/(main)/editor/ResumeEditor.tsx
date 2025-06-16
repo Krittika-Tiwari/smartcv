@@ -14,9 +14,13 @@ import { ResumeServerData } from "@/lib/type";
 
 interface ResumeFormProps {
   resumeToEdit: ResumeServerData | null;
+  contentRef?: React.Ref<HTMLDivElement>;
 }
 
-export default function ResumeEditor({ resumeToEdit }: ResumeFormProps) {
+export default function ResumeEditor({
+  resumeToEdit,
+  contentRef,
+}: ResumeFormProps) {
   const searchParams = useSearchParams();
 
   const [resumeData, setResumeData] = useState<ResumeType>(
@@ -39,7 +43,7 @@ export default function ResumeEditor({ resumeToEdit }: ResumeFormProps) {
     (step) => step.key === currentStep,
   )?.component;
   return (
-    <div className="flex grow flex-col">
+    <div className=" flex grow flex-col">
       <header className="space-y-1.5 border-b px-3 py-5 text-center">
         <h1 className="text-2xl font-bold">Design your resume</h1>
         <p className="text-sm text-muted-foreground">
@@ -68,6 +72,7 @@ export default function ResumeEditor({ resumeToEdit }: ResumeFormProps) {
             resumeData={resumeData}
             setResumeDate={setResumeData}
             className={cn(showSmResumePreview && "flex")}
+            contentRef={contentRef}
           />
         </div>
       </main>

@@ -3,16 +3,17 @@ import Link from "next/link";
 import logo from "@/assets/logo.png";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
     <>
       <div className="fixed inset-0 -z-10 h-full w-full">
-        <div className="h-full w-full bg-[radial-gradient(125%_125%_at_50%_10%,#0f0f1f_40%,#5b5bd6_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_200px,_#2e2e4d,_transparent)]" />
+        <div className="h-full w-full bg-[radial-gradient(125%_125%_at_50%_10%,#f0f0ff_40%,#b5b5f5_100%)] dark:bg-none" />
+        <div className="absolute inset-0 hidden dark:block bg-[radial-gradient(125%_125%_at_50%_10%,#0f0f1f_40%,#5b5bd6_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_200px,_#eaeaff,_transparent)] dark:bg-[radial-gradient(circle_600px_at_50%_200px,_#2e2e4d,_transparent)]" />
       </div>
-
-      <header className="fixed top-0 left-0 w-full z-20 shadow-sm bg-slate-950/80 backdrop-blur-md">
+      <header className="fixed top-0 left-0 w-full z-20 shadow-sm bg-transparent backdrop-blur-3xl">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Image
@@ -22,15 +23,14 @@ export default function Home() {
               height={40}
               className="rounded-full"
             />
-            <span className="text-xl font-bold tracking-tight text-white">
-              SmartCv
-            </span>
+            <span className="text-xl font-bold tracking-tight">SmartCv</span>
           </Link>
 
           <div className="flex items-center gap-3">
+            <ModeToggle />
             <SignInButton>
               <Button
-                variant="outline"
+                variant="secondary"
                 className="border-slate-600    transition-colors"
               >
                 Sign in
@@ -38,7 +38,7 @@ export default function Home() {
             </SignInButton>
 
             <SignUpButton>
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-md shadow-md shadow-black transition-colors">
+              <Button className="  font-semibold px-4 py-2 rounded-md shadow-md shadow-black transition-colors">
                 Sign up
               </Button>
             </SignUpButton>
@@ -48,7 +48,7 @@ export default function Home() {
 
       <main className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-24 flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-24 animate-fade-in">
         <div className="text-center lg:text-left lg:max-w-2xl">
-          <h1 className="text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6">
+          <h1 className="text-5xl lg:text-6xl font-extrabold tracking-tight  mb-6">
             Build a{" "}
             <span className="bg-gradient-to-r from-indigo-400 to-violet-300 bg-clip-text text-transparent">
               Job-Winning Resume
@@ -56,7 +56,7 @@ export default function Home() {
             in Minutes
           </h1>
 
-          <p className="text-xl text-slate-300 mb-8">
+          <p className="text-xl text-muted-foreground mb-8">
             SmartCv uses AI to help you craft a professional, personalized
             resume—fast, effective, and effortless.
           </p>
@@ -64,7 +64,7 @@ export default function Home() {
           <Link href="/resumes">
             <Button
               size="lg"
-              className="bg-violet-700 hover:bg-violet-800 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-transform hover:scale-105"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-transform hover:scale-105"
             >
               Get Started
             </Button>
