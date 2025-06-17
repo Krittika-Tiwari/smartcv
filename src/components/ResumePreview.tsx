@@ -202,7 +202,7 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
                 {pro.url ? (
                   <span
                     onClick={() => window.open(pro.url, "_blank")}
-                    className="hover:underline text-blue-600 cursor-pointer"
+                    className="hover:underline cursor-pointer"
                   >
                     {pro.name}
                   </span>
