@@ -10,6 +10,7 @@ import { useTheme } from "next-themes";
 import { dark } from "@clerk/themes";
 import { Button } from "@/components/ui/button";
 import { ResumeServerData } from "@/lib/type";
+import ShareResume from "./ShareDialog";
 
 interface EditorNavbar {
   resume: ResumeServerData | null;
@@ -43,7 +44,11 @@ export default function EditorNavbar({ resume, handelToPrint }: EditorNavbar) {
               Print
             </Button>
 
-            {/* <Button variant="secondary">Share</Button> */}
+            {/* <Button variant="secondary">
+              <Share className="size-4" />
+              Share
+            </Button> */}
+            {resume && <ShareResume resumeId={resume.id} />}
           </div>
 
           <div className="flex items-center gap-2">
