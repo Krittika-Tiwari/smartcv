@@ -1,7 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/logo.png";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/theme-toggle";
 
@@ -28,20 +34,27 @@ export default function Home() {
 
           <div className="flex items-center gap-3">
             <ModeToggle />
-            <SignInButton>
-              <Button
-                variant="secondary"
-                className="border-slate-600    transition-colors"
-              >
-                Sign in
-              </Button>
-            </SignInButton>
 
-            <SignUpButton>
-              <Button className="  font-semibold px-4 py-2 rounded-md shadow-md shadow-black transition-colors">
-                Sign up
-              </Button>
-            </SignUpButton>
+            <SignedOut>
+              <SignInButton>
+                <Button
+                  variant="secondary"
+                  className="border-slate-600 transition-colors"
+                >
+                  Sign in
+                </Button>
+              </SignInButton>
+
+              <SignUpButton>
+                <Button className="font-semibold px-4 py-2 rounded-md shadow-md shadow-black transition-colors">
+                  Sign up
+                </Button>
+              </SignUpButton>
+            </SignedOut>
+
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
           </div>
         </div>
       </header>
