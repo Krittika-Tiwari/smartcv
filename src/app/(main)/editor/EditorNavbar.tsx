@@ -4,13 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/logo.png";
 import { UserButton } from "@clerk/nextjs";
-import { CreditCard, Printer } from "lucide-react";
+import { CreditCard, Printer, Share } from "lucide-react";
 import { ModeToggle } from "@/components/theme-toggle";
 import { useTheme } from "next-themes";
 import { dark } from "@clerk/themes";
 import { Button } from "@/components/ui/button";
 import { ResumeServerData } from "@/lib/type";
 import ShareResume from "./ShareDialog";
+import { useState } from "react";
 
 interface EditorNavbar {
   resume: ResumeServerData | null;
@@ -19,6 +20,7 @@ interface EditorNavbar {
 
 export default function EditorNavbar({ resume, handelToPrint }: EditorNavbar) {
   const { theme } = useTheme();
+  const [open, setOpen] = useState(false);
 
   return (
     <header className="shadow-sm">
@@ -44,11 +46,14 @@ export default function EditorNavbar({ resume, handelToPrint }: EditorNavbar) {
               Print
             </Button>
 
-            {/* <Button variant="secondary">
+            <Button
+              variant="secondary"
+              disabled={!resume}
+              onClick={() => setOpen(true)}
+            >
               <Share className="size-4" />
               Share
-            </Button> */}
-            {resume && <ShareResume resumeId={resume.id} />}
+            </Button>
           </div>
 
           <div className="flex items-center gap-2">
@@ -75,6 +80,9 @@ export default function EditorNavbar({ resume, handelToPrint }: EditorNavbar) {
           </div>
         </div>
       </div>
+      {resume && (
+        <ShareResume open={open} setOpen={setOpen} resumeId={resume.id} />
+      )}
     </header>
   );
 }

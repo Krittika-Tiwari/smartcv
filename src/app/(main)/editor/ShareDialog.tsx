@@ -3,7 +3,6 @@
 import {
   Dialog,
   DialogContent,
-  DialogTrigger,
   DialogHeader,
   DialogTitle,
   DialogDescription,
@@ -20,12 +19,19 @@ import {
 } from "react-share";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Share2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect } from "react";
 
-export default function ShareResume({ resumeId }: { resumeId: string }) {
-  const [open, setOpen] = useState(false);
+interface ShareResumeProps {
+  resumeId: string;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
 
+export default function ShareResume({
+  resumeId,
+  open,
+  setOpen,
+}: ShareResumeProps) {
   const shareUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/preview/${resumeId}`
@@ -38,22 +44,24 @@ export default function ShareResume({ resumeId }: { resumeId: string }) {
           title: "Check out my resume!",
           url: shareUrl,
         })
+        .then(() => {
+          setOpen(false);
+        })
         .catch((err) => console.error("Share failed:", err));
     } else {
-      navigator.clipboard.writeText(shareUrl);
-      toast.success("Link copied to clipboard!");
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        toast.success("Link copied!");
+        setOpen(false);
+      });
     }
   };
 
+  useEffect(() => {
+    console.log("Dialog open:", open);
+  }, [open]);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="secondary">
-          <Share2 className="mr-2 h-4 w-4" />
-          Share
-        </Button>
-      </DialogTrigger>
-
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Share your resume</DialogTitle>
@@ -84,6 +92,7 @@ export default function ShareResume({ resumeId }: { resumeId: string }) {
             onClick={() => {
               navigator.clipboard.writeText(shareUrl);
               toast.success("Link copied!");
+              setOpen(false);
             }}
           >
             Copy Link
