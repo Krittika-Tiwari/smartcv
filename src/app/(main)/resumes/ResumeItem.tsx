@@ -19,13 +19,14 @@ import {
 import { ResumeServerData } from "@/lib/type";
 import { mapToResumeValues } from "@/lib/utils";
 import { formatDate } from "date-fns";
-import { MoreVertical, Printer, Trash } from "lucide-react";
+import { MoreVertical, Printer, Share, Trash } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { deleteResume } from "./action";
 import LoadingButton from "@/components/LoadingButton";
 import { useReactToPrint } from "react-to-print";
+import ShareResume from "../editor/ShareDialog";
 
 interface ResumeItemProps {
   resume: ResumeServerData;
@@ -81,6 +82,7 @@ interface MoreMenuProps {
 function MoreMenu({ resumeId, onPrintClick }: MoreMenuProps) {
   const [showDeleteConformationModal, setShowDeleteConformationModal] =
     useState(false);
+  const [showShareResumeModal, setShowShareResumeModal] = useState(false);
   return (
     <>
       <DropdownMenu>
@@ -108,12 +110,24 @@ function MoreMenu({ resumeId, onPrintClick }: MoreMenuProps) {
             <Printer className="size-4" />
             Print
           </DropdownMenuItem>
+          <DropdownMenuItem
+            className="flex items-center gap-2"
+            onClick={() => setShowShareResumeModal(true)}
+          >
+            <Share className="size-4" />
+            Share
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <DeleteResumeModal
         resumeId={resumeId}
         open={showDeleteConformationModal}
         onOpenChange={setShowDeleteConformationModal}
+      />
+      <ShareResume
+        resumeId={resumeId}
+        open={showShareResumeModal}
+        setOpen={setShowShareResumeModal}
       />
     </>
   );

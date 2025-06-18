@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
 import ResumeItem from "./ResumeItem";
+import EmptyResume from "./EmptyResume";
 
 export const metadata: Metadata = {
   title: "Your Resumes",
@@ -50,11 +51,17 @@ export default async function page() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {resumes.map((resume) => (
-          <ResumeItem key={resume.id} resume={resume} />
-        ))}
-      </div>
+      {resumes.length === 0 ? (
+        <div className="relative max-w-2xl mx-auto px-6 sm:px-8 lg:px-10 py-14 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 animate-fade-in">
+          <EmptyResume />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in">
+          {resumes.map((resume) => (
+            <ResumeItem key={resume.id} resume={resume} />
+          ))}
+        </div>
+      )}
     </main>
   );
 }
