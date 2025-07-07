@@ -4,6 +4,7 @@ import ResumePreview from "@/components/ResumePreview";
 import TemplatePickerPopover from "@/components/Template";
 import { cn } from "@/lib/utils";
 import { ResumeType } from "@/lib/validation";
+import { ResumeTemplate } from "@prisma/client";
 
 interface ResumePreviewSectionProps {
   resumeData: ResumeType;
@@ -36,7 +37,9 @@ export default function ResumePreviewSection({
         />
         <TemplatePickerPopover
           selectedTemplateId={resumeData.template}
-          onSelect={(id) => setResumeDate({ ...resumeData, template: id })}
+          onSelect={(id) =>
+            setResumeDate({ ...resumeData, template: id as ResumeTemplate })
+          }
         />
       </div>
       <div className="flex w-full justify-center overflow-y-auto bg-secondary p-3">

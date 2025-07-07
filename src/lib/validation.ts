@@ -1,3 +1,4 @@
+import { ResumeTemplate } from "@prisma/client";
 import { string, z } from "zod";
 
 export const optionalString = z.string().trim().optional().or(z.literal(""));
@@ -97,7 +98,8 @@ export const resumeSchema = z.object({
   ...summarySchema.shape,
   colorHex: optionalString,
   borderStyle: optionalString,
-  template: optionalString,
+
+  template: z.nativeEnum(ResumeTemplate).optional(),
 });
 
 export type ResumeType = Omit<z.infer<typeof resumeSchema>, "photo"> & {
