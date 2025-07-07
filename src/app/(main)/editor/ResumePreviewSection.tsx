@@ -1,6 +1,7 @@
 import BorderStyleButton from "@/components/BorderStyleButton";
 import ColorPicker from "@/components/ColorPicker";
 import ResumePreview from "@/components/ResumePreview";
+import TemplatePickerPopover from "@/components/Template";
 import { cn } from "@/lib/utils";
 import { ResumeType } from "@/lib/validation";
 
@@ -32,6 +33,10 @@ export default function ResumePreviewSection({
           onChange={(borderStyle) =>
             setResumeDate({ ...resumeData, borderStyle })
           }
+        />
+        <TemplatePickerPopover
+          selectedTemplateId={resumeData.template}
+          onSelect={(id) => setResumeDate({ ...resumeData, template: id })}
         />
       </div>
       <div className="flex w-full justify-center overflow-y-auto bg-secondary p-3">
