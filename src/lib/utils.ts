@@ -29,6 +29,7 @@ export function mapToResumeValues(data: ResumeServerData): ResumeType {
     country: data.country || undefined,
     phone: data.phone || undefined,
     email: data.email || undefined,
+    template: data.template,
     workExperiences: data.workExperiences.map((exp) => ({
       position: exp.position || undefined,
       company: exp.company || undefined,
