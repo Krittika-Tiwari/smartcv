@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ResumeType } from "@/lib/validation";
 import { formatDate } from "date-fns";
 import { useRef } from "react";
+import { Linkedin, Github, Globe } from "lucide-react";
 
 interface MinimalTemplateProps {
   resumeData: ResumeType;
@@ -59,10 +60,31 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
     phone,
     email,
     colorHex,
+    linkedin,
+    github,
+    portfolio,
   } = resumeData;
 
+  const contactLinks = [
+    {
+      label: "LinkedIn",
+      url: linkedin,
+      icon: <Linkedin className="w-4 h-4" />,
+    },
+    {
+      label: "GitHub",
+      url: github,
+      icon: <Github className="w-4 h-4" />,
+    },
+    {
+      label: "Portfolio",
+      url: portfolio,
+      icon: <Globe className="w-4 h-4" />,
+    },
+  ].filter((link) => !!link.url);
+
   return (
-    <div className="flex flex-col items-center text-center gap-2">
+    <div className="flex flex-col items-center text-center gap-1">
       <div>
         <h1
           className="text-4xl font-extrabold uppercase"
@@ -71,13 +93,28 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
           {firstName} {lastName}
         </h1>
         <p
-          className="text-sm font-medium tracking-wide uppercase mt-1"
+          className="text-sm font-medium tracking-wide uppercase"
           style={{ color: colorHex }}
         >
           {jobTitle}
         </p>
       </div>
-      <div className="flex flex-wrap justify-center items-center gap-2 text-xs text-gray-500 mt-1">
+      {contactLinks.length > 0 && (
+        <div className="flex flex-wrap justify-center items-center gap-3 text-xs text-gray-600">
+          {contactLinks.map((link, index) => (
+            <span
+              key={index}
+              onClick={() => window.open(link.url, "_blank")}
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 hover:underline cursor-pointer"
+            >
+              {link.icon}
+              <span className="break-all">{link.label}</span>
+            </span>
+          ))}
+        </div>
+      )}
+      <div className="flex flex-wrap justify-center items-center gap-2 text-xs text-gray-500">
         {[city, country].filter(Boolean).join(", ")}
         {(city || country) && (phone || email) ? " • " : ""}
         {[phone, email].filter(Boolean).join(" • ")}
@@ -85,6 +122,7 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
     </div>
   );
 }
+
 function EductionSection({ resumeData }: ResumeSectionProps) {
   const { educations, colorHex } = resumeData;
 

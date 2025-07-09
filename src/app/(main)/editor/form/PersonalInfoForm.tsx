@@ -30,6 +30,9 @@ export default function PersonalInfoForm({
       country: resumeData.country || "",
       email: resumeData.email || "",
       phone: resumeData.phone || "",
+      linkedin: resumeData.linkedin || "",
+      github: resumeData.github || "",
+      portfolio: resumeData.portfolio || "",
     },
   });
 
@@ -129,7 +132,6 @@ export default function PersonalInfoForm({
             )}
           />
           <div className="grid grid-cols-2 gap-3">
-            {" "}
             <FormField
               control={form.control}
               name="city"
@@ -157,6 +159,47 @@ export default function PersonalInfoForm({
               )}
             />
           </div>
+          <div className="grid grid-cols-2 gap-3">
+            <FormField
+              control={form.control}
+              name="linkedin"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>LinkedIn</FormLabel>
+                  <FormControl>
+                    <Input type="url" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="github"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>GitHub</FormLabel>
+                  <FormControl>
+                    <Input type="url" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormField
+            control={form.control}
+            name="portfolio"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Portfolio</FormLabel>
+                <FormControl>
+                  <Input type="url" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="phone"

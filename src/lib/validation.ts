@@ -29,6 +29,9 @@ export const personalInfoSchema = z.object({
   country: optionalString,
   phone: optionalString,
   email: optionalString,
+  linkedin: optionalString,
+  github: optionalString,
+  portfolio: optionalString,
 });
 
 export type PersonalInfoType = z.infer<typeof personalInfoSchema>;

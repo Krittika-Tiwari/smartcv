@@ -8,7 +8,6 @@ import path from "path";
 import { v4 as uuidv4 } from "uuid";
 export async function saveResume(values: ResumeType) {
   const { id } = values;
-  console.log("recived values", values);
 
   const { photo, workExperiences, educations, ...resumeValues } =
     resumeSchema.parse(values);
