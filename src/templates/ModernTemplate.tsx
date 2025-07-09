@@ -1,11 +1,10 @@
 import { BorderStyles } from "@/components/BorderStyleButton";
+import { Badge } from "@/components/ui/badge";
 import useDimension from "@/hooks/useDimension";
 import { cn } from "@/lib/utils";
 import { ResumeType } from "@/lib/validation";
 import { formatDate } from "date-fns";
-import { Badge } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import { useRef } from "react";
 
 interface ModernTemplateProps {
   resumeData: ResumeType;
@@ -31,15 +30,19 @@ export default function ModernTemplate({
       <div
         ref={contentRef}
         id="resumePreviewContent"
-        className={cn("space-y-6 p-6", !width && "invisible")}
+        className={cn("flex space-y-6 p-6", !width && "invisible")}
         style={{ zoom: (1 / 794) * width }}
       >
-        <PersonalInfoHeader resumeData={resumeData} />
-        <SummarySection resumeData={resumeData} />
-        <WorkExperisionSection resumeData={resumeData} />
-        <ProjectSection resumeData={resumeData} />
-        <EductionSection resumeData={resumeData} />
-        <SkillsSection resumeData={resumeData} />
+        <aside className="w-[30%] bg-gray-50 p-4 space-y-6 border-r border-gray-200">
+          <SidebarHeader resumeData={resumeData} />
+          <SkillsSection resumeData={resumeData} />
+        </aside>
+        <main className="w-[70%] p-4 space-y-4">
+          <SummarySection resumeData={resumeData} />
+          <EductionSection resumeData={resumeData} />
+          <WorkExperisionSection resumeData={resumeData} />
+          <ProjectSection resumeData={resumeData} />
+        </main>
       </div>
     </div>
   );
@@ -48,10 +51,8 @@ export default function ModernTemplate({
 interface ResumeSectionProps {
   resumeData: ResumeType;
 }
-
-function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
+function SidebarHeader({ resumeData }: ResumeSectionProps) {
   const {
-    photo,
     firstName,
     lastName,
     jobTitle,
@@ -60,72 +61,109 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
     phone,
     email,
     colorHex,
-    borderStyle,
   } = resumeData;
 
-  const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
-
-  useEffect(() => {
-    const objectUrl = photo instanceof File ? URL.createObjectURL(photo) : "";
-    if (objectUrl) {
-      setPhotoSrc(objectUrl);
-    }
-
-    if (photo === null) {
-      setPhotoSrc("");
-    }
-
-    return () => {
-      URL.revokeObjectURL(objectUrl);
-    };
-  }, [photo]);
-
   return (
-    <div className="flex items-center gap-6">
-      {photoSrc && (
-        <Image
-          src={photoSrc}
-          width={100}
-          height={100}
-          alt="Author photo"
-          className="aspect-square object-cover"
-          style={{
-            borderRadius:
-              borderStyle === BorderStyles.SQUARE
-                ? "0px"
-                : borderStyle === BorderStyles.CIRCLE
-                  ? "9999px"
-                  : "10%",
-          }}
-        />
-      )}
-      <div className="space-y-2.5">
-        <div className="space-y-1">
-          <p className="text-3xl font-bold" style={{ color: colorHex }}>
-            {firstName} {lastName}
-          </p>
-          <p className="font-medium" style={{ color: colorHex }}>
-            {jobTitle}
-          </p>
-        </div>
-        <p className="text-xs text-gray-500">
-          {city}
-          {city && country ? ", " : ""} {country}
-          {(city || country) && (phone || email) ? " ● " : ""}
-          {[phone, email].filter(Boolean).join(" ● ")}
-        </p>
+    <div className="text-left space-y-2">
+      <h1
+        className="text-xl font-extrabold uppercase tracking-wide leading-tight"
+        style={{ color: colorHex, fontFamily: "Georgia, serif" }}
+      >
+        {firstName} {lastName}
+      </h1>
+      <p
+        className="text-sm font-medium uppercase tracking-wider"
+        style={{ color: colorHex }}
+      >
+        {jobTitle}
+      </p>
+      <div className="text-xs text-gray-600 leading-relaxed">
+        <p>{[city, country].filter(Boolean).join(", ")}</p>
+        {[phone, email].filter(Boolean).map((item, i) => (
+          <p key={i}>{item}</p>
+        ))}
       </div>
     </div>
   );
 }
+
+// function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
+//   const {
+//     photo,
+//     firstName,
+//     lastName,
+//     jobTitle,
+//     city,
+//     country,
+//     phone,
+//     email,
+//     colorHex,
+//     borderStyle,
+//   } = resumeData;
+
+//   const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
+
+//   useEffect(() => {
+//     const objectUrl = photo instanceof File ? URL.createObjectURL(photo) : "";
+//     if (objectUrl) {
+//       setPhotoSrc(objectUrl);
+//     }
+
+//     if (photo === null) {
+//       setPhotoSrc("");
+//     }
+
+//     return () => {
+//       URL.revokeObjectURL(objectUrl);
+//     };
+//   }, [photo]);
+
+//   return (
+//     <div className="flex items-center gap-6">
+//       {photoSrc && (
+//         <Image
+//           src={photoSrc}
+//           width={100}
+//           height={100}
+//           alt="Author photo"
+//           className="aspect-square object-cover"
+//           style={{
+//             borderRadius:
+//               borderStyle === BorderStyles.SQUARE
+//                 ? "0px"
+//                 : borderStyle === BorderStyles.CIRCLE
+//                   ? "9999px"
+//                   : "10%",
+//           }}
+//         />
+//       )}
+//       <div className="space-y-2.5">
+//         <div className="space-y-1">
+//           <p className="text-3xl font-bold" style={{ color: colorHex }}>
+//             {firstName} {lastName}
+//           </p>
+//           <p className="font-medium" style={{ color: colorHex }}>
+//             {jobTitle}
+//           </p>
+//         </div>
+//         <p className="text-xs text-gray-500">
+//           {city}
+//           {city && country ? ", " : ""} {country}
+//           {(city || country) && (phone || email) ? " ● " : ""}
+//           {[phone, email].filter(Boolean).join(" ● ")}
+//         </p>
+//       </div>
+//     </div>
+//   );
+// }
 
 function SummarySection({ resumeData }: ResumeSectionProps) {
   const { summary, colorHex } = resumeData;
   if (!summary) return null;
   return (
     <>
-      <hr className="border-2 bg-gray-300" style={{ borderColor: colorHex }} />
-      <div className="space-y-3 break-inside-avoid">
+      {/* <hr className="border-2 bg-gray-300" style={{ borderColor: colorHex }} /> */}
+      <div className="space-y-2 break-inside-avoid">
         <p className="text-lg font-semibold" style={{ color: colorHex }}>
           Professional profile
         </p>
@@ -168,7 +206,9 @@ function WorkExperisionSection({ resumeData }: ResumeSectionProps) {
               )}
             </div>
             <p className="text-sm font-semibold">{exp.company}</p>
-            <div className="whitespace-pre-line text-xs">{exp.description}</div>
+            <div className="whitespace-pre-line text-xs px-4">
+              {exp.description}
+            </div>
           </div>
         ))}
       </div>
@@ -221,7 +261,9 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
               )}
             </div>
 
-            <div className="whitespace-pre-line text-xs">{pro.description}</div>
+            <div className="whitespace-pre-line text-xs px-4">
+              {pro.description}
+            </div>
           </div>
         ))}
       </div>
