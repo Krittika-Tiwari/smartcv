@@ -3,6 +3,12 @@ import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
 import { Button } from "./ui/button";
 import { LayoutTemplateIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+
+// Import images from assets
+import MinimalImg from "@/assets/minimal.png";
+import ModernImg from "@/assets/modern.png";
+import ClassicImg from "@/assets/classic.png";
 
 interface TemplatePickerPopoverProps {
   selectedTemplateId: string | undefined;
@@ -16,9 +22,9 @@ export default function TemplatePickerPopover({
   const [open, setOpen] = useState(false);
 
   const templates = [
-    { id: "minimal", name: "Minimal" },
-    { id: "modern", name: "Modern" },
-    { id: "classic", name: "Classic" },
+    { id: "minimal", name: "Minimal", image: MinimalImg },
+    { id: "modern", name: "Modern", image: ModernImg },
+    { id: "classic", name: "Classic", image: ClassicImg },
   ];
 
   return (
@@ -29,22 +35,34 @@ export default function TemplatePickerPopover({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent align="end" className="w-64 p-2 space-y-2">
-        {templates.map((template) => (
-          <Button
-            key={template.id}
-            variant={selectedTemplateId === template.id ? "default" : "ghost"}
-            className={cn("w-full justify-start text-left", {
-              "ring-2 ring-blue-500": selectedTemplateId === template.id,
-            })}
-            onClick={() => {
-              onSelect(template.id);
-              setOpen(false);
-            }}
-          >
-            {template.name}
-          </Button>
-        ))}
+      <PopoverContent
+        align="start"
+        className="w-56 sm:w-72 md:w-80 max-h-80 p-2 overflow-y-auto"
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {templates.map((template) => (
+            <button
+              key={template.id}
+              className={cn(
+                "border rounded-lg p-2 flex flex-col items-center text-xs transition-colors",
+                selectedTemplateId === template.id
+                  ? "border-primary bg-muted"
+                  : "border-muted hover:bg-accent",
+              )}
+              onClick={() => {
+                onSelect(template.id);
+                setOpen(false);
+              }}
+            >
+              <Image
+                src={template.image}
+                alt={template.name}
+                className="rounded object-cover w-20 sm:w-24 md:w-full h-auto"
+              />
+              <span className="mt-2 text-sm sm:text-base">{template.name}</span>
+            </button>
+          ))}
+        </div>
       </PopoverContent>
     </Popover>
   );

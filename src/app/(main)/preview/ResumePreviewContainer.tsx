@@ -11,7 +11,7 @@ export default function ResumePreviewContainer({
   resumeData,
 }: ResumePreviewContainerProps) {
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex w-full justify-center overflow-y-auto bg-secondary p-7 px-16">
       <ResumePreview resumeData={mapToResumeValues(resumeData)} />
     </div>
   );
