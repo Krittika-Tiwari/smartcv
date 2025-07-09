@@ -6,6 +6,7 @@ import { formatDate } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import { Github, Globe, Linkedin } from "lucide-react";
 
 interface ClassicTemplateProps {
   resumeData: ResumeType;
@@ -61,6 +62,9 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
     email,
     colorHex,
     borderStyle,
+    linkedin,
+    github,
+    portfolio,
   } = resumeData;
 
   const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
@@ -80,6 +84,23 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
     };
   }, [photo]);
 
+  const contactLinks = [
+    {
+      label: "LinkedIn",
+      url: linkedin,
+      icon: <Linkedin className="w-4 h-4" />,
+    },
+    {
+      label: "GitHub",
+      url: github,
+      icon: <Github className="w-4 h-4" />,
+    },
+    {
+      label: "Portfolio",
+      url: portfolio,
+      icon: <Globe className="w-4 h-4" />,
+    },
+  ].filter((link) => !!link.url);
   return (
     <div className="flex items-center gap-6">
       {photoSrc && (
@@ -99,7 +120,7 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
           }}
         />
       )}
-      <div className="space-y-2.5">
+      <div className="space-y-1">
         <div className="space-y-1">
           <p className="text-3xl font-bold" style={{ color: colorHex }}>
             {firstName} {lastName}
@@ -108,6 +129,21 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
             {jobTitle}
           </p>
         </div>
+        {contactLinks.length > 0 && (
+          <div className="flex flex-wrap  items-center gap-3 text-xs text-gray-600">
+            {contactLinks.map((link, index) => (
+              <span
+                key={index}
+                onClick={() => window.open(link.url, "_blank")}
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 hover:underline cursor-pointer"
+              >
+                {link.icon}
+                <span className="break-all">{link.label}</span>
+              </span>
+            ))}
+          </div>
+        )}
         <p className="text-xs text-gray-500">
           {city}
           {city && country ? ", " : ""} {country}
@@ -168,7 +204,9 @@ function WorkExperisionSection({ resumeData }: ResumeSectionProps) {
               )}
             </div>
             <p className="text-sm font-semibold">{exp.company}</p>
-            <div className="whitespace-pre-line text-xs">{exp.description}</div>
+            <div className="whitespace-pre-line text-xs px-4">
+              {exp.description}
+            </div>
           </div>
         ))}
       </div>
@@ -221,7 +259,9 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
               )}
             </div>
 
-            <div className="whitespace-pre-line text-xs">{pro.description}</div>
+            <div className="whitespace-pre-line text-xs px-4">
+              {pro.description}
+            </div>
           </div>
         ))}
       </div>

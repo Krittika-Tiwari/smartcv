@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ResumeType } from "@/lib/validation";
 import { formatDate } from "date-fns";
 import { useRef } from "react";
+import { Linkedin, Github, Globe } from "lucide-react";
 
 interface ModernTemplateProps {
   resumeData: ResumeType;
@@ -61,7 +62,28 @@ function SidebarHeader({ resumeData }: ResumeSectionProps) {
     phone,
     email,
     colorHex,
+    linkedin,
+    github,
+    portfolio,
   } = resumeData;
+
+  const links = [
+    {
+      label: "LinkedIn",
+      url: linkedin,
+      icon: <Linkedin className="w-4 h-4 text-gray-600" />,
+    },
+    {
+      label: "GitHub",
+      url: github,
+      icon: <Github className="w-4 h-4 text-gray-600" />,
+    },
+    {
+      label: "Portfolio",
+      url: portfolio,
+      icon: <Globe className="w-4 h-4 text-gray-600" />,
+    },
+  ].filter((link) => !!link.url);
 
   return (
     <div className="text-left space-y-2">
@@ -71,16 +93,31 @@ function SidebarHeader({ resumeData }: ResumeSectionProps) {
       >
         {firstName} {lastName}
       </h1>
+
       <p
         className="text-sm font-medium uppercase tracking-wider"
         style={{ color: colorHex }}
       >
         {jobTitle}
       </p>
-      <div className="text-xs text-gray-600 leading-relaxed">
+
+      <div className="text-xs text-gray-600 leading-relaxed space-y-1">
         <p>{[city, country].filter(Boolean).join(", ")}</p>
         {[phone, email].filter(Boolean).map((item, i) => (
           <p key={i}>{item}</p>
+        ))}
+
+        {links.map((link, index) => (
+          <p key={index} className="flex items-center gap-1">
+            {link.icon}
+            <span
+              onClick={() => window.open(link.url, "_blank")}
+              rel="noopener noreferrer"
+              className=" break-all hover:underline cursor-pointer"
+            >
+              {link.label}
+            </span>
+          </p>
         ))}
       </div>
     </div>

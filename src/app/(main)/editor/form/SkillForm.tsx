@@ -59,7 +59,6 @@ export default function SkillForm({
                     {...field}
                     onChange={(e) => {
                       const skills = e.target.value.split(",");
-                      console.log(skills);
                       field.onChange(skills);
                     }}
                   />

@@ -84,7 +84,6 @@ export default function UseAutoSaveResume(resumeData: ResumeType) {
 
     if (hasUnsavedChanges && DebounceResumeData && !isSaving) {
       save();
-      console.log("saved");
     }
   }, [
     DebounceResumeData,

@@ -19,7 +19,6 @@ import {
 } from "react-share";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
 
 interface ShareResumeProps {
   resumeId: string;
@@ -55,10 +54,6 @@ export default function ShareResume({
       });
     }
   };
-
-  useEffect(() => {
-    console.log("Dialog open:", open);
-  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

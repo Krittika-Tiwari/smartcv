@@ -29,8 +29,8 @@ model Resume {
   description String?
 
   photoUrl    String?
-  colorHex    String         @default("#000000")
-  borderStyle String         @default("squircle")
+  colorHex    String  @default("#000000")
+  borderStyle String  @default("squircle")
   summary     String?
   firstName   String?
   lastName    String?
@@ -39,7 +39,11 @@ model Resume {
   country     String?
   phone       String?
   email       String?
-  template    ResumeTemplate @default(classic)
+  linkedin    String?
+  github      String?
+  portfolio   String?
+
+  template ResumeTemplate @default(classic)
 
   workExperiences WorkExperience[]
   educations      Education[]
