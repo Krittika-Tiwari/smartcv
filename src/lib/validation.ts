@@ -1,5 +1,5 @@
 import { ResumeTemplate } from "@prisma/client";
-import { string, z } from "zod";
+import { z } from "zod";
 
 export const optionalString = z.string().trim().optional().or(z.literal(""));
 
@@ -80,8 +80,16 @@ export const projectSchema = z.object({
 });
 
 export type ProjectType = z.infer<typeof projectSchema>;
+
 export const skillSchema = z.object({
-  skills: z.array(string().trim()).optional(),
+  skills: z
+    .array(
+      z.object({
+        category: optionalString,
+        values: z.array(z.string().trim()),
+      }),
+    )
+    .optional(),
 });
 
 export type SkillType = z.infer<typeof skillSchema>;

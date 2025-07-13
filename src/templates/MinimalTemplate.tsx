@@ -300,44 +300,51 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
   );
 }
 
-function SkillsSection({ resumeData }: ResumeSectionProps) {
+export function SkillsSection({ resumeData }: ResumeSectionProps) {
   const { skills, colorHex, borderStyle } = resumeData;
 
-  if (!skills?.length) return null;
+  if (!skills || skills.length === 0) return null;
 
   return (
-    <>
-      <div className="break-inside-avoid space-y-3">
-        <h2
-          className="text-base font-semibold uppercase tracking-wide mb-0 "
-          style={{ color: colorHex }}
-        >
-          Skills
-        </h2>
-        <hr
-          className="border-1 bg-gray-300"
-          style={{ borderColor: colorHex }}
-        />
-        <div className="flex break-inside-avoid flex-wrap gap-2">
-          {skills.map((skill, index) => (
-            <Badge
-              key={index}
-              className="bg-black hover:bg-black text-white rounded-md"
-              style={{
-                backgroundColor: colorHex,
-                borderRadius:
-                  borderStyle === BorderStyles.SQUARE
-                    ? "0px"
-                    : borderStyle === BorderStyles.CIRCLE
-                      ? "9999px"
-                      : "8px",
-              }}
-            >
-              {skill}
-            </Badge>
-          ))}
-        </div>
+    <div className="space-y-4 break-inside-avoid">
+      <h2
+        className="text-base font-semibold uppercase tracking-wide mb-0"
+        style={{ color: colorHex }}
+      >
+        Skills
+      </h2>
+      <hr className="border-1 bg-gray-300" style={{ borderColor: colorHex }} />
+
+      <div className="space-y-2">
+        {skills.map(({ category, values }, i) => (
+          <div key={i} className="flex gap-1 px-2">
+            {category && (
+              <div className="text-sm font-medium text-gray-800 capitalize">
+                {category}
+              </div>
+            )}
+            <div className="flex flex-wrap gap-1">
+              {values.map((skill, j) => (
+                <Badge
+                  key={j}
+                  className="text-white"
+                  style={{
+                    backgroundColor: colorHex,
+                    borderRadius:
+                      borderStyle === BorderStyles.SQUARE
+                        ? "0px"
+                        : borderStyle === BorderStyles.CIRCLE
+                          ? "9999px"
+                          : "8px",
+                  }}
+                >
+                  {skill}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 }

@@ -341,33 +341,44 @@ function EductionSection({ resumeData }: ResumeSectionProps) {
   );
 }
 
-function SkillsSection({ resumeData }: ResumeSectionProps) {
+export function SkillsSection({ resumeData }: ResumeSectionProps) {
   const { skills, colorHex, borderStyle } = resumeData;
 
-  if (!skills?.length) return null;
+  if (!skills || skills.length === 0) return null;
 
   return (
     <>
       <hr className="border-2 bg-gray-300" style={{ borderColor: colorHex }} />
-      <div className="break-inside-avoid space-y-3">
+      <div className="break-inside-avoid space-y-1 ">
         <p className="text-lg font-semibold">Skills</p>
-        <div className="flex break-inside-avoid flex-wrap gap-2">
-          {skills.map((skill, index) => (
-            <Badge
-              key={index}
-              className="bg-black hover:bg-black text-white rounded-md"
-              style={{
-                backgroundColor: colorHex,
-                borderRadius:
-                  borderStyle === BorderStyles.SQUARE
-                    ? "0px"
-                    : borderStyle === BorderStyles.CIRCLE
-                      ? "9999px"
-                      : "8px",
-              }}
-            >
-              {skill}
-            </Badge>
+        <div className="space-y-1">
+          {skills.map((skillGroup, index) => (
+            <div key={index}>
+              {/* {skillGroup.category && (
+                <p className="text-sm font-medium text-gray-700 mb-1 capitalize">
+                  {skillGroup.category}
+                </p>
+              )} */}
+              <div className="flex flex-wrap gap-2">
+                {skillGroup.values.map((skill, i) => (
+                  <Badge
+                    key={i}
+                    className="text-white"
+                    style={{
+                      backgroundColor: colorHex,
+                      borderRadius:
+                        borderStyle === BorderStyles.SQUARE
+                          ? "0px"
+                          : borderStyle === BorderStyles.CIRCLE
+                            ? "9999px"
+                            : "8px",
+                    }}
+                  >
+                    {skill}
+                  </Badge>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>
