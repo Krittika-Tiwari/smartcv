@@ -78,6 +78,12 @@ export async function saveResume(values: ResumeType) {
             endDate: pro.endDate ? new Date(pro.endDate) : undefined,
           })),
         },
+        skills: {
+          deleteMany: {},
+          create: values.skills?.map((skill) => ({
+            ...skill,
+          })),
+        },
         updatedAt: new Date(),
       },
     });
@@ -106,6 +112,11 @@ export async function saveResume(values: ResumeType) {
             ...pro,
             startDate: pro.startDate ? new Date(pro.startDate) : undefined,
             endDate: pro.endDate ? new Date(pro.endDate) : undefined,
+          })),
+        },
+        skills: {
+          create: values.skills?.map((skill) => ({
+            ...skill,
           })),
         },
       },
