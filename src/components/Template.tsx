@@ -25,6 +25,7 @@ export default function TemplatePickerPopover({
     { id: "minimal", name: "Minimal", image: MinimalImg },
     { id: "modern", name: "Modern", image: ModernImg },
     { id: "classic", name: "Classic", image: ClassicImg },
+    { id: "creative", name: "Creative", image: MinimalImg },
   ];
 
   return (

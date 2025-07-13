@@ -2,6 +2,7 @@ import { ResumeType } from "@/lib/validation";
 import ClassicTemplate from "@/templates/ClassicTemplate";
 import MinimalTemplate from "@/templates/MinimalTemplate";
 import ModernTemplate from "@/templates/ModernTemplate";
+import CreativeTemplate from "@/templates/CreativeTemplate";
 
 interface ResumePreviewProps {
   resumeData: ResumeType;
@@ -13,6 +14,7 @@ const templates: Record<string, React.FC<ResumePreviewProps>> = {
   classic: ClassicTemplate,
   modern: ModernTemplate,
   minimal: MinimalTemplate,
+  creative: CreativeTemplate,
 };
 
 export default function ResumePreview({
