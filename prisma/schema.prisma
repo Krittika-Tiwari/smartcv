@@ -44,11 +44,14 @@ model Resume {
   portfolio   String?
 
   template ResumeTemplate @default(classic)
+  isPublic Boolean        @default(false)
 
   workExperiences WorkExperience[]
   educations      Education[]
   projects        Project[]
   skills          Skill[]
+  achievements    Achievement[]
+  certificates    Certificate[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -122,4 +125,34 @@ model Skill {
   updatedAt DateTime @updatedAt
 
   @@map("skills")
+}
+
+model Achievement {
+  id        String    @id @default(cuid())
+  title     String?
+  issuer    String?
+  startDate DateTime?
+  endDate   DateTime?
+  resumeId  String
+  resume    Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("achievements")
+}
+
+model Certificate {
+  id       String    @id @default(cuid())
+  name     String?
+  issuer   String?
+  url      String?
+  date     DateTime?
+  resumeId String
+  resume   Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("certificates")
 }

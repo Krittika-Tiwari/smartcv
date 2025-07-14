@@ -1,4 +1,5 @@
 import { ResumeTemplate } from "@prisma/client";
+
 import { z } from "zod";
 
 export const optionalString = z.string().trim().optional().or(z.literal(""));
@@ -94,6 +95,36 @@ export const skillSchema = z.object({
 
 export type SkillType = z.infer<typeof skillSchema>;
 
+export const achievementSchema = z.object({
+  achievements: z
+    .array(
+      z.object({
+        title: optionalString,
+        issuer: optionalString,
+        startDate: optionalString,
+        endDate: optionalString,
+      }),
+    )
+    .optional(),
+});
+
+export type AchievementType = z.infer<typeof achievementSchema>;
+
+export const certificateSchema = z.object({
+  certificates: z
+    .array(
+      z.object({
+        name: optionalString,
+        issuer: optionalString,
+        url: optionalString,
+        date: optionalString,
+      }),
+    )
+    .optional(),
+});
+
+export type CertificateType = z.infer<typeof certificateSchema>;
+
 export const summarySchema = z.object({
   summary: optionalString,
 });
@@ -107,6 +138,8 @@ export const resumeSchema = z.object({
   ...projectSchema.shape,
   ...skillSchema.shape,
   ...summarySchema.shape,
+  ...achievementSchema.shape,
+  ...certificateSchema.shape,
   colorHex: optionalString,
   borderStyle: optionalString,
 
