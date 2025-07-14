@@ -99,7 +99,7 @@ export default function AchievementForm({
               strategy={verticalListSortingStrategy}
             >
               {fields.map((field, index) => (
-                <EductionItems
+                <AchievementItems
                   key={field.id}
                   form={form}
                   remove={remove}
@@ -130,13 +130,13 @@ export default function AchievementForm({
   );
 }
 
-interface EductionItemsProps {
+interface AchievementItemProps {
   id: string;
   form: UseFormReturn<AchievementType>;
   index: number;
   remove: (index: number) => void;
 }
-function EductionItems({ form, index, remove, id }: EductionItemsProps) {
+function AchievementItems({ form, index, remove, id }: AchievementItemProps) {
   const {
     attributes,
     listeners,
