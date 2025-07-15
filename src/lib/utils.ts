@@ -57,6 +57,19 @@ export function mapToResumeValues(data: ResumeServerData): ResumeType {
       category: skill.category || undefined,
       values: skill.values || undefined,
     })),
+    achievements: data.achievements.map((achievement) => ({
+      title: achievement.title || undefined,
+      issuer: achievement.issuer || undefined,
+      startDate: achievement.startDate?.toISOString().split("T")[0],
+      endDate: achievement.endDate?.toISOString().split("T")[0],
+    })),
+
+    certificates: data.certificates.map((certificate) => ({
+      name: certificate.name || undefined,
+      issuer: certificate.issuer || undefined,
+      url: certificate.url || undefined,
+      date: certificate.date?.toISOString().split("T")[0],
+    })),
     borderStyle: data.borderStyle,
     colorHex: data.colorHex,
     summary: data.summary || undefined,

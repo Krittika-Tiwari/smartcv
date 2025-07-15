@@ -84,6 +84,25 @@ export async function saveResume(values: ResumeType) {
             ...skill,
           })),
         },
+        achievements: {
+          deleteMany: {},
+          create: values.achievements?.map((achievement) => ({
+            ...achievement,
+            startDate: achievement.startDate
+              ? new Date(achievement.startDate)
+              : undefined,
+            endDate: achievement.endDate
+              ? new Date(achievement.endDate)
+              : undefined,
+          })),
+        },
+        certificates: {
+          deleteMany: {},
+          create: values.certificates?.map((certificate) => ({
+            ...certificate,
+            date: certificate.date ? new Date(certificate.date) : undefined,
+          })),
+        },
         updatedAt: new Date(),
       },
     });
@@ -117,6 +136,23 @@ export async function saveResume(values: ResumeType) {
         skills: {
           create: values.skills?.map((skill) => ({
             ...skill,
+          })),
+        },
+        achievements: {
+          create: values.achievements?.map((achievement) => ({
+            ...achievement,
+            startDate: achievement.startDate
+              ? new Date(achievement.startDate)
+              : undefined,
+            endDate: achievement.endDate
+              ? new Date(achievement.endDate)
+              : undefined,
+          })),
+        },
+        certificates: {
+          create: values.certificates?.map((certificate) => ({
+            ...certificate,
+            date: certificate.date ? new Date(certificate.date) : undefined,
           })),
         },
       },
