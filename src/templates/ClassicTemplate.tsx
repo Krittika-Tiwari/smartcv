@@ -353,29 +353,29 @@ export function SkillsSection({ resumeData }: ResumeSectionProps) {
     <>
       <hr className="border-2 bg-gray-300" style={{ borderColor: colorHex }} />
       <div className="break-inside-avoid space-y-2">
-        <p className="text-lg font-semibold">Skills</p>
-        <div className=" flex gap-1">
-          {skills.map(({ values }, index) => (
-            <div className="flex flex-wrap gap-1 " key={index}>
-              {values.map((skill, idx) => (
-                <Badge
-                  key={idx}
-                  className="text-white"
-                  style={{
-                    backgroundColor: colorHex,
-                    borderRadius:
-                      borderStyle === BorderStyles.SQUARE
-                        ? "0px"
-                        : borderStyle === BorderStyles.CIRCLE
-                          ? "9999px"
-                          : "8px",
-                  }}
-                >
-                  {skill}
-                </Badge>
-              ))}
-            </div>
-          ))}
+        <p className="text-lg font-semibold" style={{ color: colorHex }}>
+          Skills
+        </p>
+        <div className="flex flex-wrap gap-1">
+          {skills
+            .flatMap(({ values }) => values)
+            .map((skill, idx) => (
+              <Badge
+                key={idx}
+                className="text-white"
+                style={{
+                  backgroundColor: colorHex,
+                  borderRadius:
+                    borderStyle === BorderStyles.SQUARE
+                      ? "0px"
+                      : borderStyle === BorderStyles.CIRCLE
+                        ? "9999px"
+                        : "8px",
+                }}
+              >
+                {skill}
+              </Badge>
+            ))}
         </div>
       </div>
     </>
