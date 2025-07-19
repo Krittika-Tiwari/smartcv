@@ -6,7 +6,7 @@ import EductionForm from "./form/EductionForm";
 import SkillForm from "./form/SkillForm";
 import SummaryForm from "./form/SummaryForm";
 import ProjectForm from "./form/ProjectForm";
-import CertificateForm from "./form/CertificateForm";
+// import CertificateForm from "./form/CertificateForm";
 import AchievementForm from "./form/AchievementForm";
 
 export const steps: {
@@ -51,11 +51,11 @@ export const steps: {
     key: "achievements",
   },
 
-  {
-    title: "Certificates",
-    component: CertificateForm,
-    key: "certificates",
-  },
+  // {
+  //   title: "Certificates",
+  //   component: CertificateForm,
+  //   key: "certificates",
+  // },
   {
     title: "Summary",
     component: SummaryForm,

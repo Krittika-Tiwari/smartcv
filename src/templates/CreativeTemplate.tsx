@@ -38,11 +38,10 @@ export default function CreativeTemplate({
         style={{ zoom: (1 / 794) * width }}
       >
         <PersonalInfoHeader resumeData={resumeData} />
-        <EductionSection resumeData={resumeData} />
         <SummarySection resumeData={resumeData} />
+        <EductionSection resumeData={resumeData} />
         <WorkExperisionSection resumeData={resumeData} />
         <ProjectSection resumeData={resumeData} />
-
         <SkillsSection resumeData={resumeData} />
         <AchievementSection resumeData={resumeData} />
       </div>
@@ -475,7 +474,7 @@ function AchievementSection({ resumeData }: ResumeSectionProps) {
         className="text-base font-semibold uppercase tracking-wide mb-0"
         style={{ color: colorHex }}
       >
-        Achievements & Certifications
+        Achievements
       </h2>
       <hr
         className="border-0.5 bg-gray-300"
