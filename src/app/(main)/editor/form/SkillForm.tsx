@@ -192,9 +192,8 @@ function SkillItem({ id, form, index, remove }: SkillItemsProps) {
                   value={field.value.join(",")}
                   onChange={(e) => {
                     const skills = e.target.value.split(",");
-                    const trimmedSkills = skills
-                      .map((skill) => skill.trim())
-                      .filter((skill) => skill !== "");
+                    const trimmedSkills = skills.map((skill) => skill.trim());
+
                     field.onChange(trimmedSkills);
                   }}
                 />

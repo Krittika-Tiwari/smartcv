@@ -191,7 +191,7 @@ function AchievementItems({ form, index, remove, id }: AchievementItemProps) {
           </FormItem>
         )}
       />
-      <div className="grid grid-cols-2 gap-3">
+      {/* <div className="grid grid-cols-2 gap-3">
         <FormField
           control={form.control}
           name={`achievements.${index}.startDate`}
@@ -226,7 +226,7 @@ function AchievementItems({ form, index, remove, id }: AchievementItemProps) {
             </FormItem>
           )}
         />
-      </div>
+      </div> */}
       <Button variant={"destructive"} onClick={() => remove(index)}>
         Remove
       </Button>
