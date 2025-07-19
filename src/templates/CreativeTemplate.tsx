@@ -71,6 +71,7 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
     branch,
     institute,
     instituteEmail,
+    jobTitle,
     leetcode,
   } = resumeData;
 
@@ -118,9 +119,15 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
           >
             {firstName} {lastName}
           </h1>
-          <p className="text-sm text-gray-800  " style={{ color: colorHex }}>
-            Roll No: {rollNumber}
+          <p className="text-md text-gray-800  " style={{ color: colorHex }}>
+            {jobTitle}
           </p>
+          {rollNumber && (
+            <p className="text-sm text-gray-800" style={{ color: colorHex }}>
+              Roll No: {rollNumber}
+            </p>
+          )}
+
           <p className="text-sm text-gray-800  " style={{ color: colorHex }}>
             {degree}
           </p>
@@ -240,11 +247,13 @@ function EductionSection({ resumeData }: ResumeSectionProps) {
 
             <div className="flex flex-col items-end text-sm text-gray-800 whitespace-nowrap pl-4 font-serif">
               {edu.startDate && (
-                <div>
-                  {formatDate(edu.startDate, "yy")}{" "}
-                  {edu.endDate ? `– ${formatDate(edu.endDate, "yyyy")}` : ""}
+                <div className="text-sm text-gray-800 whitespace-nowrap pl-4 font-serif">
+                  {edu.endDate
+                    ? `${formatDate(edu.startDate, "yy")}–${formatDate(edu.endDate, "yyyy")}`
+                    : formatDate(edu.startDate, "yyyy")}
                 </div>
               )}
+
               {edu.cgpa && (
                 <div className="text-sm text-gray-700 font-serif">
                   CGPA: {edu.cgpa}

@@ -39,6 +39,7 @@ export default function PersonalInfoForm({
       branch: resumeData.branch || "",
       institute: resumeData.institute || "",
       instituteEmail: resumeData.instituteEmail || "",
+      leetcode: resumeData.leetcode || "",
     },
   });
 
@@ -128,21 +129,20 @@ export default function PersonalInfoForm({
               )}
             />
           </div>
-          {!isCreative && (
-            <FormField
-              control={form.control}
-              name="jobTitle"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Job title</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+
+          <FormField
+            control={form.control}
+            name="jobTitle"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Job title</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <div className="grid grid-cols-2 gap-3">
             <FormField
