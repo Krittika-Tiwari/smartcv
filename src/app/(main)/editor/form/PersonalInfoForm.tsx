@@ -33,6 +33,11 @@ export default function PersonalInfoForm({
       linkedin: resumeData.linkedin || "",
       github: resumeData.github || "",
       portfolio: resumeData.portfolio || "",
+      rollNumber: resumeData.rollNumber || "",
+      degree: resumeData.degree || "",
+      branch: resumeData.branch || "",
+      institute: resumeData.institute || "",
+      instituteEmail: resumeData.instituteEmail || "",
     },
   });
 
@@ -90,7 +95,6 @@ export default function PersonalInfoForm({
           />
 
           <div className="grid grid-cols-2 gap-3">
-            {" "}
             <FormField
               control={form.control}
               name="firstName"
@@ -187,19 +191,91 @@ export default function PersonalInfoForm({
               )}
             />
           </div>
-          <FormField
-            control={form.control}
-            name="portfolio"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Portfolio</FormLabel>
-                <FormControl>
-                  <Input type="url" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-2 gap-3">
+            <FormField
+              control={form.control}
+              name="rollNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Roll number</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="degree"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Degree</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <FormField
+              control={form.control}
+              name="branch"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Branch</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="institute"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Institute</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <FormField
+              control={form.control}
+              name="portfolio"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Portfolio</FormLabel>
+                  <FormControl>
+                    <Input type="url" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="leetcode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Leetcode</FormLabel>
+                  <FormControl>
+                    <Input type="url" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <FormField
             control={form.control}
             name="phone"
@@ -213,19 +289,34 @@ export default function PersonalInfoForm({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-2 gap-3">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="instituteEmail"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Institute email</FormLabel>
+                  <FormControl>
+                    <Input type="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </form>
       </Form>
     </div>

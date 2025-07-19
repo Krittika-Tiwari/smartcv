@@ -118,6 +118,8 @@ export default function ProjectForm({
                   name: "",
                   description: "",
                   url: "",
+                  github: "",
+                  stack: [],
                   startDate: "",
                   endDate: "",
                 })

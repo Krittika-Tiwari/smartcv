@@ -32,7 +32,13 @@ export const personalInfoSchema = z.object({
   email: optionalString,
   linkedin: optionalString,
   github: optionalString,
+  leetcode: optionalString,
   portfolio: optionalString,
+  rollNumber: optionalString,
+  degree: optionalString,
+  branch: optionalString,
+  institute: optionalString,
+  instituteEmail: optionalString,
 });
 
 export type PersonalInfoType = z.infer<typeof personalInfoSchema>;
@@ -59,6 +65,7 @@ export const eductionSchema = z.object({
       z.object({
         school: optionalString,
         degree: optionalString,
+        cgpa: optionalString,
         startDate: optionalString,
         endDate: optionalString,
       }),
@@ -73,6 +80,8 @@ export const projectSchema = z.object({
         name: optionalString,
         description: optionalString,
         url: optionalString,
+        github: optionalString,
+        stack: z.array(z.string().trim()),
         startDate: optionalString,
         endDate: optionalString,
       }),
