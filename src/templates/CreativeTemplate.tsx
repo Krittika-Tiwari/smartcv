@@ -9,6 +9,7 @@ import Image from "next/image";
 import { SiLeetcode } from "react-icons/si";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
+import { FaFolder } from "react-icons/fa";
 
 interface CreativeTemplateProps {
   resumeData: ResumeType;
@@ -73,6 +74,7 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
     instituteEmail,
     jobTitle,
     leetcode,
+    portfolio,
   } = resumeData;
 
   const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
@@ -128,12 +130,12 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
             </p>
           )}
 
-          <p className="text-sm text-gray-800  " style={{ color: colorHex }}>
-            {degree}
-          </p>
-          <p className="text-sm text-gray-800  " style={{ color: colorHex }}>
-            {branch}
-          </p>
+          {(degree || branch) && (
+            <p className="text-sm text-gray-800" style={{ color: colorHex }}>
+              {[degree, branch].filter(Boolean).join(", ")}
+            </p>
+          )}
+
           <p className="text-sm text-gray-800  " style={{ color: colorHex }}>
             {institute}
           </p>
@@ -196,6 +198,18 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
           >
             <SiLeetcode style={{ color: colorHex }} className="w-3.5 h-3.5" />
             <span>Leetcode Profile</span>
+          </a>
+        )}
+
+        {portfolio && (
+          <a
+            href={portfolio}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="break-all flex items-center justify-end gap-1 hover:underline cursor-pointer"
+          >
+            <FaFolder style={{ color: colorHex }} className="w-3.5 h-3.5" />
+            <span>Portfolio Link</span>
           </a>
         )}
       </div>
@@ -323,9 +337,9 @@ function WorkExperisionSection({ resumeData }: ResumeSectionProps) {
                 </p>
                 {exp.startDate && (
                   <p className="text-sm text-gray-800 font-serif">
-                    {formatDate(exp.startDate, "MMM.yyyy")} –{" "}
+                    {formatDate(exp.startDate, "MMM yyyy")} –{" "}
                     {exp.endDate
-                      ? formatDate(exp.endDate, "MMM.yyyy")
+                      ? formatDate(exp.endDate, "MMM yyyy")
                       : "Present"}
                   </p>
                 )}
@@ -380,9 +394,9 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
 
                   {pro.startDate && (
                     <p className="text-sm text-gray-800">
-                      {formatDate(pro.startDate, "MMM.yyyy")} –{" "}
+                      {formatDate(pro.startDate, "MMM yyyy")} –{" "}
                       {pro.endDate
-                        ? formatDate(pro.endDate, "MMM.yyyy")
+                        ? formatDate(pro.endDate, "MMM yyyy")
                         : "Present"}
                     </p>
                   )}
@@ -449,7 +463,10 @@ export function SkillsSection({ resumeData }: ResumeSectionProps) {
 
       <div className="space-y-1">
         {skills.map(({ category, values }, i) => (
-          <div key={i} className="flex items-start gap-1 px-2">
+          <div
+            key={i}
+            className="flex items-start gap-1 break-inside-avoid px-2"
+          >
             <span className="text-base leading-none text-gray-800">•</span>
             <div className="flex gap-1 flex-wrap">
               {category && (
@@ -491,7 +508,7 @@ function AchievementSection({ resumeData }: ResumeSectionProps) {
       />
 
       {achievementsNotEmpty.map((ach, index) => (
-        <div key={index} className="break-after-avoid space-y-1">
+        <div key={index} className="break-inside-avoid space-y-1">
           <div className="flex items-start gap-1">
             <span className="text-base leading-none text-gray-800">•</span>
             <div className="flex-1">
@@ -505,14 +522,14 @@ function AchievementSection({ resumeData }: ResumeSectionProps) {
                     </span>
                   )}
                 </p>
-                {(ach.startDate || ach.endDate) && (
+                {/* {(ach.startDate || ach.endDate) && (
                   <p className="text-sm text-gray-800 whitespace-nowrap">
                     {ach.startDate ? formatDate(ach.startDate, "MMM.yyyy") : ""}
                     {ach.endDate
                       ? ` – ${formatDate(ach.endDate, "MMM.yyyy")}`
                       : ""}
                   </p>
-                )}
+                )} */}
               </div>
             </div>
           </div>
