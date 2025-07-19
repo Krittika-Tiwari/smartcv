@@ -188,7 +188,20 @@ function ProjectItems({ form, index, remove, id }: ProjectItemsProps) {
         name={`projects.${index}.url`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Project url</FormLabel>
+            <FormLabel>Live Link</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name={`projects.${index}.github`}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Github</FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>

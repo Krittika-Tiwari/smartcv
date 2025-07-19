@@ -9,6 +9,8 @@ import Image from "next/image";
 import MinimalImg from "@/assets/minimal.png";
 import ModernImg from "@/assets/modern.png";
 import ClassicImg from "@/assets/classic.png";
+import CreativeImg from "@/assets/creative.png";
+import { useTemplateStore } from "@/store/useTemplateStore";
 
 interface TemplatePickerPopoverProps {
   selectedTemplateId: string | undefined;
@@ -20,12 +22,15 @@ export default function TemplatePickerPopover({
   onSelect,
 }: TemplatePickerPopoverProps) {
   const [open, setOpen] = useState(false);
+  const setSelectedTemplate = useTemplateStore(
+    (state) => state.setSelectedTemplate,
+  );
 
   const templates = [
-    { id: "minimal", name: "Minimal", image: MinimalImg },
-    { id: "modern", name: "Modern", image: ModernImg },
     { id: "classic", name: "Classic", image: ClassicImg },
-    { id: "creative", name: "Creative", image: MinimalImg },
+    { id: "creative", name: "Creative", image: CreativeImg },
+    { id: "modern", name: "Modern", image: ModernImg },
+    { id: "minimal", name: "Minimal", image: MinimalImg },
   ];
 
   return (
@@ -52,6 +57,7 @@ export default function TemplatePickerPopover({
               )}
               onClick={() => {
                 onSelect(template.id);
+                setSelectedTemplate(template.id);
                 setOpen(false);
               }}
             >

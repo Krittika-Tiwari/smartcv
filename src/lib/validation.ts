@@ -73,6 +73,7 @@ export const eductionSchema = z.object({
     .optional(),
 });
 export type EducationType = z.infer<typeof eductionSchema>;
+
 export const projectSchema = z.object({
   projects: z
     .array(

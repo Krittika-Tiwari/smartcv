@@ -158,31 +158,39 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
           </div>
         )}
         {github && (
-          <div
+          <a
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
             className="break-all flex items-center justify-end gap-1 hover:underline cursor-pointer"
-            onClick={() => window.open(github, "_blank")}
           >
             <FaGithub style={{ color: colorHex }} className="w-3.5 h-3.5" />
             <span>GitHub Profile</span>
-          </div>
+          </a>
         )}
+
         {linkedin && (
-          <div
+          <a
+            href={linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
             className="break-all flex items-center justify-end gap-1 hover:underline cursor-pointer"
-            onClick={() => window.open(linkedin, "_blank")}
           >
             <FaLinkedin style={{ color: colorHex }} className="w-3.5 h-3.5" />
             <span>LinkedIn Profile</span>
-          </div>
+          </a>
         )}
+
         {leetcode && (
-          <div
+          <a
+            href={leetcode}
+            target="_blank"
+            rel="noopener noreferrer"
             className="break-all flex items-center justify-end gap-1 hover:underline cursor-pointer"
-            onClick={() => window.open(leetcode, "_blank")}
           >
             <SiLeetcode style={{ color: colorHex }} className="w-3.5 h-3.5" />
             <span>Leetcode Profile</span>
-          </div>
+          </a>
         )}
       </div>
     </div>
@@ -208,7 +216,7 @@ function EductionSection({ resumeData }: ResumeSectionProps) {
           Education
         </h2>
         <hr
-          className="border-1 bg-gray-300"
+          className="border-0.5 bg-gray-300"
           style={{ borderColor: colorHex }}
         />
 
@@ -264,7 +272,7 @@ function SummarySection({ resumeData }: ResumeSectionProps) {
           Summary
         </h2>
         <hr
-          className="border-1 border-gray-300"
+          className="border-0.5 border-gray-300"
           style={{ borderColor: colorHex }}
         />
         <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-line">
@@ -294,7 +302,7 @@ function WorkExperisionSection({ resumeData }: ResumeSectionProps) {
           Work experience
         </h2>
         <hr
-          className="border-1 bg-gray-300"
+          className="border-0.5 bg-gray-300"
           style={{ borderColor: colorHex }}
         />
         {workExperiencesNotEmpty.map((exp, index) => (
@@ -349,7 +357,7 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
           Personal Project
         </h2>
         <hr
-          className="border-1 bg-gray-300"
+          className="border-0.5 bg-gray-300"
           style={{ borderColor: colorHex }}
         />
         {projectsNotEmpty.map((pro, index) => (
@@ -359,16 +367,7 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
               <div className="flex-1 space-y-1">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
                   <p className="text-sm font-semibold text-gray-800">
-                    {pro.url ? (
-                      <span
-                        onClick={() => window.open(pro.url, "_blank")}
-                        className="hover:underline cursor-pointer"
-                      >
-                        {pro.name}
-                      </span>
-                    ) : (
-                      pro.name
-                    )}
+                    {pro.name}
                   </p>
 
                   {pro.startDate && (
@@ -380,12 +379,39 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
                     </p>
                   )}
                 </div>
-
+                {(pro.github || pro.url) && (
+                  <div className="text-sm text-gray-800  font-bold space-x-1">
+                    {pro.github && (
+                      <a
+                        href={pro.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        GitHub
+                      </a>
+                    )}
+                    {pro.github && pro.url && <span>|</span>}
+                    {pro.url && (
+                      <a
+                        href={pro.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        Live Demo
+                      </a>
+                    )}
+                  </div>
+                )}
+                {/* Description */}
                 {pro.description && (
-                  <p className="text-sm leading-relaxed text-gray-700 whitespace-pre-line ">
+                  <p className="text-sm leading-relaxed text-gray-700 whitespace-pre-line">
                     {pro.description}
                   </p>
                 )}
+
+                {/* Links */}
               </div>
             </div>
           </div>
@@ -408,7 +434,10 @@ export function SkillsSection({ resumeData }: ResumeSectionProps) {
       >
         Techinical Skills and Interests
       </h2>
-      <hr className="border-1 bg-gray-300" style={{ borderColor: colorHex }} />
+      <hr
+        className="border-0.5 bg-gray-300"
+        style={{ borderColor: colorHex }}
+      />
 
       <div className="space-y-1">
         {skills.map(({ category, values }, i) => (
@@ -448,7 +477,10 @@ function AchievementSection({ resumeData }: ResumeSectionProps) {
       >
         Achievements & Certifications
       </h2>
-      <hr className="border-1 bg-gray-300" style={{ borderColor: colorHex }} />
+      <hr
+        className="border-0.5 bg-gray-300"
+        style={{ borderColor: colorHex }}
+      />
 
       {achievementsNotEmpty.map((ach, index) => (
         <div key={index} className="break-after-avoid space-y-1">
