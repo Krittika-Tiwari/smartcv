@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
 import { Button } from "./ui/button";
 import { LayoutTemplateIcon } from "lucide-react";
@@ -32,6 +32,12 @@ export default function TemplatePickerPopover({
     { id: "modern", name: "Modern", image: ModernImg },
     { id: "minimal", name: "Minimal", image: MinimalImg },
   ];
+
+  useEffect(() => {
+    if (selectedTemplateId) {
+      setSelectedTemplate(selectedTemplateId);
+    }
+  }, [selectedTemplateId]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

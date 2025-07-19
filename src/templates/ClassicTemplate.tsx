@@ -6,7 +6,10 @@ import { formatDate } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { Github, Globe, Linkedin } from "lucide-react";
+import { SiLeetcode } from "react-icons/si";
+import { FaGithub } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaFolder } from "react-icons/fa";
 
 interface ClassicTemplateProps {
   resumeData: ResumeType;
@@ -66,6 +69,7 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
     linkedin,
     github,
     portfolio,
+    leetcode,
   } = resumeData;
 
   const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
@@ -89,17 +93,22 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
     {
       label: "LinkedIn",
       url: linkedin,
-      icon: <Linkedin className="w-4 h-4" />,
+      icon: <FaLinkedin className="w-4 h-4" />,
     },
     {
       label: "GitHub",
       url: github,
-      icon: <Github className="w-4 h-4" />,
+      icon: <FaGithub className="w-4 h-4" />,
+    },
+    {
+      label: "Leetcode",
+      url: leetcode,
+      icon: <SiLeetcode className="w-4 h-4" />,
     },
     {
       label: "Portfolio",
       url: portfolio,
-      icon: <Globe className="w-4 h-4" />,
+      icon: <FaFolder className="w-4 h-4" />,
     },
   ].filter((link) => !!link.url);
   return (
@@ -131,21 +140,23 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
           </p>
         </div>
         {contactLinks.length > 0 && (
-          <div className="flex flex-wrap  items-center gap-3 text-xs text-gray-600">
+          <div className="flex flex-wrap items-center gap-3 text-xs">
             {contactLinks.map((link, index) => (
-              <span
+              <a
                 key={index}
-                onClick={() => window.open(link.url, "_blank")}
+                href={link.url}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 hover:underline cursor-pointer"
               >
                 {link.icon}
                 <span className="break-all">{link.label}</span>
-              </span>
+              </a>
             ))}
           </div>
         )}
-        <p className="text-xs text-gray-500">
+
+        <p className="text-xs ">
           {city}
           {city && country ? ", " : ""} {country}
           {(city || country) && (phone || email) ? " ● " : ""}
@@ -204,8 +215,8 @@ function WorkExperisionSection({ resumeData }: ResumeSectionProps) {
                 </span>
               )}
             </div>
-            <p className="text-sm font-semibold">{exp.company}</p>
-            <div className="whitespace-pre-line text-xs px-4">
+            <p className="text-sm font-medium">{exp.company}</p>
+            <div className="whitespace-pre-line text-sm px-4">
               {exp.description}
             </div>
           </div>
@@ -229,40 +240,61 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
       <hr className="border-2 bg-gray-300" style={{ borderColor: colorHex }} />
       <div className="space-y-3">
         <p className="text-lg font-semibold" style={{ color: colorHex }}>
-          Project
+          Projects
         </p>
         {projectsNotEmpty.map((pro, index) => (
           <div key={index} className="break-after-avoid space-y-1">
             <div
-              className="flex items-center justify-between text-sm font-semibold"
+              className="flex justify-between items-start text-sm font-semibold"
               style={{ color: colorHex }}
             >
-              <span>
-                {pro.url ? (
-                  <span
-                    onClick={() => window.open(pro.url, "_blank")}
-                    className="hover:underline cursor-pointer"
-                  >
-                    {pro.name}
-                  </span>
-                ) : (
-                  pro.name
-                )}
-              </span>
+              <div className="flex flex-col gap-0.5">
+                <span>{pro.name}</span>
 
+                {(pro.github || pro.url) && (
+                  <div className="flex items-center gap-1 font-medium  text-sm">
+                    {pro.github && (
+                      <a
+                        href={pro.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        GitHub
+                      </a>
+                    )}
+                    {pro.github && pro.url && (
+                      <span className="text-gray-500">|</span>
+                    )}
+                    {pro.url && (
+                      <a
+                        href={pro.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        Live Demo
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Right: Dates */}
               {pro.startDate && (
                 <span>
                   {formatDate(pro.startDate, "MM/yyyy")} -{" "}
-                  {pro.endDate
-                    ? formatDate(pro.endDate, "MM/yyyy")
-                    : "Present"}{" "}
+                  {pro.endDate ? formatDate(pro.endDate, "MM/yyyy") : "Present"}
                 </span>
               )}
             </div>
 
-            <div className="whitespace-pre-line text-xs px-4">
-              {pro.description}
-            </div>
+            {/* Description */}
+            {pro.description && (
+              <div className="whitespace-pre-line text-sm px-4">
+                {pro.description}
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -292,10 +324,19 @@ function EductionSection({ resumeData }: ResumeSectionProps) {
               style={{ color: colorHex }}
             >
               <span>{edu.degree}</span>
-              {edu.startDate &&
-                `${formatDate(edu.startDate, "MM/yyyy")} ${edu.endDate ? ` - ${formatDate(edu.endDate, "MM/yyyy")}` : ""}`}
+              {edu.startDate && (
+                <span>
+                  {formatDate(edu.startDate, "MM/yyyy")}{" "}
+                  {edu.endDate
+                    ? ` - ${formatDate(edu.endDate, "MM/yyyy")}`
+                    : ""}
+                </span>
+              )}
             </div>
-            <p className="text-sm font-semibold">{edu.school}</p>
+            <div className="flex items-center justify-between text-sm">
+              <p className="font-medium">{edu.school}</p>
+              {edu.cgpa && <p className=" font-semibold">CGPA: {edu.cgpa}</p>}
+            </div>
           </div>
         ))}
       </div>
@@ -313,33 +354,26 @@ export function SkillsSection({ resumeData }: ResumeSectionProps) {
       <hr className="border-2 bg-gray-300" style={{ borderColor: colorHex }} />
       <div className="break-inside-avoid space-y-2">
         <p className="text-lg font-semibold">Skills</p>
-        <div className="space-y-2">
-          {skills.map(({ category, values }, index) => (
-            <div className="flex gap-2 px-4" key={index}>
-              {category && (
-                <p className="text-sm font-medium text-gray-700 mb-1">
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </p>
-              )}
-              <div className="flex flex-wrap gap-1">
-                {values.map((skill, idx) => (
-                  <Badge
-                    key={idx}
-                    className="text-white"
-                    style={{
-                      backgroundColor: colorHex,
-                      borderRadius:
-                        borderStyle === BorderStyles.SQUARE
-                          ? "0px"
-                          : borderStyle === BorderStyles.CIRCLE
-                            ? "9999px"
-                            : "8px",
-                    }}
-                  >
-                    {skill}
-                  </Badge>
-                ))}
-              </div>
+        <div className=" flex gap-1">
+          {skills.map(({ values }, index) => (
+            <div className="flex flex-wrap gap-1 " key={index}>
+              {values.map((skill, idx) => (
+                <Badge
+                  key={idx}
+                  className="text-white"
+                  style={{
+                    backgroundColor: colorHex,
+                    borderRadius:
+                      borderStyle === BorderStyles.SQUARE
+                        ? "0px"
+                        : borderStyle === BorderStyles.CIRCLE
+                          ? "9999px"
+                          : "8px",
+                  }}
+                >
+                  {skill}
+                </Badge>
+              ))}
             </div>
           ))}
         </div>
@@ -361,25 +395,21 @@ function AchievementSection({ resumeData }: ResumeSectionProps) {
     <>
       <hr className="border-2 bg-gray-300" style={{ borderColor: colorHex }} />
       <div className="break-inside-avoid space-y-2">
-        <p className="text-lg font-semibold">Achievements</p>
-        <div className="space-y-2">
+        <p className="text-lg font-semibold" style={{ color: colorHex }}>
+          Achievements
+        </p>
+        <div className="space-y-1">
           {achievementsNotEmpty.map((ach, index) => (
             <div
               key={index}
-              className="flex justify-between items-start text-sm break-inside-avoid"
+              className="flex justify-between items-start px-4 text-sm break-inside-avoid"
             >
-              <div className="flex flex-col">
+              <p className="text-gray-800">
                 <span className="font-semibold">{ach.title}</span>
-                {ach.issuer && <span className="text-sm ">{ach.issuer}</span>}
-              </div>
-              {(ach.startDate || ach.endDate) && (
-                <div className="text-sm font-semibold whitespace-nowrap pl-4">
-                  {ach.startDate ? formatDate(ach.startDate, "MMM-yyyy") : ""}
-                  {ach.endDate
-                    ? ` – ${formatDate(ach.endDate, "MMM-yyyy")}`
-                    : ""}
-                </div>
-              )}
+                {ach.issuer && (
+                  <span className="font-normal"> – {ach.issuer}</span>
+                )}
+              </p>
             </div>
           ))}
         </div>
