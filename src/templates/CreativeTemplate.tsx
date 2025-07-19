@@ -4,8 +4,11 @@ import { cn } from "@/lib/utils";
 import { ResumeType } from "@/lib/validation";
 import { formatDate } from "date-fns";
 import { useEffect, useRef, useState } from "react";
-import { Linkedin, Github, Phone, Mail } from "lucide-react";
+import { Phone, Mail } from "lucide-react";
 import Image from "next/image";
+import { SiLeetcode } from "react-icons/si";
+import { FaGithub } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
 
 interface CreativeTemplateProps {
   resumeData: ResumeType;
@@ -35,12 +38,12 @@ export default function CreativeTemplate({
         style={{ zoom: (1 / 794) * width }}
       >
         <PersonalInfoHeader resumeData={resumeData} />
-        <EductionSection resumeData={resumeData} />
         <SummarySection resumeData={resumeData} />
+        <EductionSection resumeData={resumeData} />
         <WorkExperisionSection resumeData={resumeData} />
         <ProjectSection resumeData={resumeData} />
-
         <SkillsSection resumeData={resumeData} />
+        <AchievementSection resumeData={resumeData} />
       </div>
     </div>
   );
@@ -54,7 +57,6 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
   const {
     firstName,
     lastName,
-    jobTitle,
     city,
     country,
     phone,
@@ -64,6 +66,12 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
     github,
     photo,
     borderStyle,
+    rollNumber,
+    degree,
+    branch,
+    institute,
+    instituteEmail,
+    leetcode,
   } = resumeData;
 
   const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
@@ -103,7 +111,7 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
             }}
           />
         )}
-        <div className="text-left  text-gray-800 space-y-1 ">
+        <div className="text-left  text-gray-800  ">
           <h1
             className="text-2xl font-extrabold uppercase"
             style={{ color: colorHex }}
@@ -111,15 +119,25 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
             {firstName} {lastName}
           </h1>
           <p className="text-sm text-gray-800  " style={{ color: colorHex }}>
-            {jobTitle}
+            Roll No: {rollNumber}
           </p>
+          <p className="text-sm text-gray-800  " style={{ color: colorHex }}>
+            {degree}
+          </p>
+          <p className="text-sm text-gray-800  " style={{ color: colorHex }}>
+            {branch}
+          </p>
+          <p className="text-sm text-gray-800  " style={{ color: colorHex }}>
+            {institute}
+          </p>
+
           <p className="text-sm text-gray-800 " style={{ color: colorHex }}>
             {city}
             {city && country ? ", " : ""} {country}
           </p>
         </div>
       </div>
-      <div className="flex flex-col text-right text-sm text-gray-800 space-y-1">
+      <div className="flex flex-col text-right text-sm text-gray-800 ">
         {phone && (
           <div className="break-all flex items-center justify-end gap-1">
             <Phone style={{ color: colorHex }} className="w-3.5 h-3.5" />
@@ -132,23 +150,46 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
             <span>{email}</span>
           </div>
         )}
-        {github && (
-          <div
-            className="break-all flex items-center justify-end gap-1 hover:underline cursor-pointer"
-            onClick={() => window.open(github, "_blank")}
-          >
-            <Github style={{ color: colorHex }} className="w-3.5 h-3.5" />
-            <span>GitHub Profile</span>
+        {instituteEmail && (
+          <div className="break-all flex items-center justify-end gap-1">
+            <Mail style={{ color: colorHex }} className="w-3.5 h-3.5" />
+            <span>{instituteEmail}</span>
           </div>
         )}
-        {linkedin && (
-          <div
+        {github && (
+          <a
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
             className="break-all flex items-center justify-end gap-1 hover:underline cursor-pointer"
-            onClick={() => window.open(linkedin, "_blank")}
           >
-            <Linkedin style={{ color: colorHex }} className="w-3.5 h-3.5" />
+            <FaGithub style={{ color: colorHex }} className="w-3.5 h-3.5" />
+            <span>GitHub Profile</span>
+          </a>
+        )}
+
+        {linkedin && (
+          <a
+            href={linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="break-all flex items-center justify-end gap-1 hover:underline cursor-pointer"
+          >
+            <FaLinkedin style={{ color: colorHex }} className="w-3.5 h-3.5" />
             <span>LinkedIn Profile</span>
-          </div>
+          </a>
+        )}
+
+        {leetcode && (
+          <a
+            href={leetcode}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="break-all flex items-center justify-end gap-1 hover:underline cursor-pointer"
+          >
+            <SiLeetcode style={{ color: colorHex }} className="w-3.5 h-3.5" />
+            <span>Leetcode Profile</span>
+          </a>
         )}
       </div>
     </div>
@@ -166,15 +207,15 @@ function EductionSection({ resumeData }: ResumeSectionProps) {
 
   return (
     <>
-      <div className=" space-y-2 break-inside-avoid font-serif">
+      <div className="space-y-2 break-inside-avoid font-serif">
         <h2
-          className="text-base font-semibold uppercase tracking-wide mb-0 font-serif "
+          className="text-base font-semibold uppercase tracking-wide mb-0 font-serif"
           style={{ color: colorHex }}
         >
           Education
         </h2>
         <hr
-          className="border-1 bg-gray-300"
+          className="border-0.5 bg-gray-300"
           style={{ borderColor: colorHex }}
         />
 
@@ -185,7 +226,7 @@ function EductionSection({ resumeData }: ResumeSectionProps) {
           >
             <div className="flex flex-col">
               <div className="flex items-start gap-1">
-                <span className=" text-base leading-none">•</span>
+                <span className="text-base leading-none">•</span>
                 <div>
                   <span className="font-semibold text-gray-800 font-serif">
                     {edu.school}
@@ -196,12 +237,20 @@ function EductionSection({ resumeData }: ResumeSectionProps) {
                 </div>
               </div>
             </div>
-            {edu.startDate && (
-              <div className="text-xs text-gray-800 whitespace-nowrap pl-4 font-serif">
-                {formatDate(edu.startDate, "yy")}{" "}
-                {edu.endDate ? `– ${formatDate(edu.endDate, "yyyy")}` : ""}
-              </div>
-            )}
+
+            <div className="flex flex-col items-end text-sm text-gray-800 whitespace-nowrap pl-4 font-serif">
+              {edu.startDate && (
+                <div>
+                  {formatDate(edu.startDate, "yy")}{" "}
+                  {edu.endDate ? `– ${formatDate(edu.endDate, "yyyy")}` : ""}
+                </div>
+              )}
+              {edu.cgpa && (
+                <div className="text-sm text-gray-700 font-serif">
+                  CGPA: {edu.cgpa}
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -222,7 +271,7 @@ function SummarySection({ resumeData }: ResumeSectionProps) {
           Summary
         </h2>
         <hr
-          className="border-1 border-gray-300"
+          className="border-0.5 border-gray-300"
           style={{ borderColor: colorHex }}
         />
         <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-line">
@@ -252,7 +301,7 @@ function WorkExperisionSection({ resumeData }: ResumeSectionProps) {
           Work experience
         </h2>
         <hr
-          className="border-1 bg-gray-300"
+          className="border-0.5 bg-gray-300"
           style={{ borderColor: colorHex }}
         />
         {workExperiencesNotEmpty.map((exp, index) => (
@@ -307,7 +356,7 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
           Personal Project
         </h2>
         <hr
-          className="border-1 bg-gray-300"
+          className="border-0.5 bg-gray-300"
           style={{ borderColor: colorHex }}
         />
         {projectsNotEmpty.map((pro, index) => (
@@ -317,16 +366,7 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
               <div className="flex-1 space-y-1">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
                   <p className="text-sm font-semibold text-gray-800">
-                    {pro.url ? (
-                      <span
-                        onClick={() => window.open(pro.url, "_blank")}
-                        className="hover:underline cursor-pointer"
-                      >
-                        {pro.name}
-                      </span>
-                    ) : (
-                      pro.name
-                    )}
+                    {pro.name}
                   </p>
 
                   {pro.startDate && (
@@ -338,12 +378,39 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
                     </p>
                   )}
                 </div>
-
+                {(pro.github || pro.url) && (
+                  <div className="text-sm text-gray-800  font-bold space-x-1">
+                    {pro.github && (
+                      <a
+                        href={pro.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        GitHub
+                      </a>
+                    )}
+                    {pro.github && pro.url && <span>|</span>}
+                    {pro.url && (
+                      <a
+                        href={pro.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        Live Demo
+                      </a>
+                    )}
+                  </div>
+                )}
+                {/* Description */}
                 {pro.description && (
-                  <p className="text-sm leading-relaxed text-gray-700 whitespace-pre-line ">
+                  <p className="text-sm leading-relaxed text-gray-700 whitespace-pre-line">
                     {pro.description}
                   </p>
                 )}
+
+                {/* Links */}
               </div>
             </div>
           </div>
@@ -359,29 +426,89 @@ export function SkillsSection({ resumeData }: ResumeSectionProps) {
   if (!skills || skills.length === 0) return null;
 
   return (
-    <div className="space-y-2 break-inside-avoid">
+    <div className="space-y-2 break-inside-avoid font-serif">
       <h2
         className="text-base font-semibold uppercase tracking-wide mb-0 font-serif"
         style={{ color: colorHex }}
       >
         Techinical Skills and Interests
       </h2>
-      <hr className="border-1 bg-gray-300" style={{ borderColor: colorHex }} />
+      <hr
+        className="border-0.5 bg-gray-300"
+        style={{ borderColor: colorHex }}
+      />
 
-      <div className="">
+      <div className="space-y-1">
         {skills.map(({ category, values }, i) => (
-          <div key={i} className="flex gap-1 px-2">
-            {category && (
-              <div className="text-sm font-bold text-gray-800 capitalize">
-                {category}:
+          <div key={i} className="flex items-start gap-1 px-2">
+            <span className="text-base leading-none text-gray-800">•</span>
+            <div className="flex gap-1 flex-wrap">
+              {category && (
+                <div className="text-sm font-bold text-gray-800 capitalize font-serif">
+                  {category}:
+                </div>
+              )}
+              <div className="text-sm text-gray-800">
+                {values.filter(Boolean).join(", ")}
               </div>
-            )}
-            <div className="text-sm text-gray-800">
-              {values.filter(Boolean).join(", ")}
             </div>
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+function AchievementSection({ resumeData }: ResumeSectionProps) {
+  const { achievements, colorHex } = resumeData;
+
+  const achievementsNotEmpty = achievements?.filter(
+    (ach) => ach.title || ach.issuer || ach.startDate || ach.endDate,
+  );
+
+  if (!achievementsNotEmpty?.length) return null;
+
+  return (
+    <div className="space-y-2 break-inside-avoid font-serif">
+      <h2
+        className="text-base font-semibold uppercase tracking-wide mb-0"
+        style={{ color: colorHex }}
+      >
+        Achievements
+      </h2>
+      <hr
+        className="border-0.5 bg-gray-300"
+        style={{ borderColor: colorHex }}
+      />
+
+      {achievementsNotEmpty.map((ach, index) => (
+        <div key={index} className="break-after-avoid space-y-1">
+          <div className="flex items-start gap-1">
+            <span className="text-base leading-none text-gray-800">•</span>
+            <div className="flex-1">
+              <div className="flex justify-between items-center gap-2">
+                <p className="text-sm font-semibold text-gray-800">
+                  {ach.title}
+                  {ach.issuer && (
+                    <span className="text-gray-600 font-normal">
+                      {" "}
+                      — {ach.issuer}
+                    </span>
+                  )}
+                </p>
+                {(ach.startDate || ach.endDate) && (
+                  <p className="text-sm text-gray-800 whitespace-nowrap">
+                    {ach.startDate ? formatDate(ach.startDate, "MMM.yyyy") : ""}
+                    {ach.endDate
+                      ? ` – ${formatDate(ach.endDate, "MMM.yyyy")}`
+                      : ""}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

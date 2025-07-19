@@ -41,6 +41,7 @@ export default function ClassicTemplate({
         <ProjectSection resumeData={resumeData} />
         <EductionSection resumeData={resumeData} />
         <SkillsSection resumeData={resumeData} />
+        <AchievementSection resumeData={resumeData} />
       </div>
     </div>
   );
@@ -339,6 +340,46 @@ export function SkillsSection({ resumeData }: ResumeSectionProps) {
                   </Badge>
                 ))}
               </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function AchievementSection({ resumeData }: ResumeSectionProps) {
+  const { achievements, colorHex } = resumeData;
+
+  const achievementsNotEmpty = achievements?.filter(
+    (a) => a.title || a.issuer || a.startDate || a.endDate,
+  );
+
+  if (!achievementsNotEmpty || achievementsNotEmpty.length === 0) return null;
+
+  return (
+    <>
+      <hr className="border-2 bg-gray-300" style={{ borderColor: colorHex }} />
+      <div className="break-inside-avoid space-y-2">
+        <p className="text-lg font-semibold">Achievements</p>
+        <div className="space-y-2">
+          {achievementsNotEmpty.map((ach, index) => (
+            <div
+              key={index}
+              className="flex justify-between items-start text-sm break-inside-avoid"
+            >
+              <div className="flex flex-col">
+                <span className="font-semibold">{ach.title}</span>
+                {ach.issuer && <span className="text-sm ">{ach.issuer}</span>}
+              </div>
+              {(ach.startDate || ach.endDate) && (
+                <div className="text-sm font-semibold whitespace-nowrap pl-4">
+                  {ach.startDate ? formatDate(ach.startDate, "MMM-yyyy") : ""}
+                  {ach.endDate
+                    ? ` – ${formatDate(ach.endDate, "MMM-yyyy")}`
+                    : ""}
+                </div>
+              )}
             </div>
           ))}
         </div>

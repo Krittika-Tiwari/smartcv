@@ -28,23 +28,28 @@ model Resume {
   title       String?
   description String?
 
-  photoUrl    String?
-  colorHex    String  @default("#000000")
-  borderStyle String  @default("squircle")
-  summary     String?
-  firstName   String?
-  lastName    String?
-  jobTitle    String?
-  city        String?
-  country     String?
-  phone       String?
-  email       String?
-  linkedin    String?
-  github      String?
-  portfolio   String?
-
-  template ResumeTemplate @default(classic)
-  isPublic Boolean        @default(false)
+  photoUrl       String?
+  colorHex       String         @default("#000000")
+  borderStyle    String         @default("squircle")
+  summary        String?
+  firstName      String?
+  lastName       String?
+  jobTitle       String?
+  city           String?
+  country        String?
+  phone          String?
+  email          String?
+  linkedin       String?
+  github         String?
+  leetcode       String?
+  portfolio      String?
+  rollNumber     String? // Roll No.: 2022UG1017
+  degree         String? // Bachelor of Technology
+  branch         String? // Computer Science and Engineering
+  institute      String?
+  instituteEmail String?
+  template       ResumeTemplate @default(classic)
+  isPublic       Boolean        @default(false)
 
   workExperiences WorkExperience[]
   educations      Education[]
@@ -82,6 +87,7 @@ model Education {
 
   degree    String?
   school    String?
+  cgpa      String?
   startDate DateTime?
   endDate   DateTime?
 
@@ -100,6 +106,8 @@ model Project {
   name        String?
   description String?
   url         String?
+  github      String?
+  stack       String[]
   startDate   DateTime?
   endDate     DateTime?
 

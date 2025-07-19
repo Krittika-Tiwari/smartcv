@@ -114,6 +114,7 @@ export default function EductionForm({
                 append({
                   school: "",
                   degree: "",
+                  cgpa: "",
                   startDate: "",
                   endDate: "",
                 })
@@ -189,6 +190,20 @@ function EductionItems({ form, index, remove, id }: EductionItemsProps) {
           </FormItem>
         )}
       />
+      <FormField
+        control={form.control}
+        name={`educations.${index}.cgpa`}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>CGPA</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
       <div className="grid grid-cols-2 gap-3">
         <FormField
           control={form.control}
