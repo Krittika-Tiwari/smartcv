@@ -149,54 +149,59 @@ function EductionSection({ resumeData }: ResumeSectionProps) {
 
   return (
     <>
-      <div className=" space-y-2  font-serif">
-        <h2
-          className="text-base font-medium uppercase tracking-wide mb-0 font-serif"
-          style={{ color: colorHex }}
-        >
-          Education
-        </h2>
-        <hr
-          className="border-0.5 bg-gray-300"
-          style={{ borderColor: colorHex }}
-        />
-
-        {eductionsNotEmpty.map((edu, index) => (
-          <div
-            key={index}
-            className="flex justify-between items-start text-sm break-inside-avoid"
+      {/* Wrap the entire Education section in one break-avoiding container */}
+      <div className="space-y-2 font-serif break-inside-avoid-page">
+        <div className="space-y-2">
+          <h2
+            className="text-base font-medium uppercase tracking-wide mb-0"
+            style={{ color: colorHex }}
           >
-            <div className="flex flex-col">
-              <div className="flex items-start gap-1">
-                <span className="text-base leading-none">•</span>
-                <div>
-                  <span className="font-semibold text-gray-800 font-serif">
-                    {edu.school}
-                  </span>
-                  <div className="text-sm text-gray-800 italic font-serif">
-                    {edu.degree}
+            Education
+          </h2>
+          <hr
+            className="border-0.5 bg-gray-300"
+            style={{ borderColor: colorHex }}
+          />
+        </div>
+
+        <div className="space-y-2">
+          {eductionsNotEmpty.map((edu, index) => (
+            <div
+              key={index}
+              className="flex justify-between items-start text-sm break-inside-avoid"
+            >
+              {/* Left Side */}
+              <div className="flex flex-col">
+                <div className="flex items-start gap-1">
+                  <span className="text-base leading-none">•</span>
+                  <div>
+                    <span className="font-semibold text-gray-800">
+                      {edu.school}
+                    </span>
+                    <div className="text-sm text-gray-800 italic">
+                      {edu.degree}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="flex flex-col items-end text-sm text-gray-800 whitespace-nowrap pl-4 font-serif">
-              {edu.startDate && (
-                <div className="text-sm text-gray-800 whitespace-nowrap pl-4 font-serif">
-                  {edu.endDate
-                    ? `${formatDate(edu.startDate, "yy")}–${formatDate(edu.endDate, "yyyy")}`
-                    : formatDate(edu.startDate, "yyyy")}
-                </div>
-              )}
-
-              {edu.cgpa && (
-                <div className="text-sm text-gray-700 font-serif">
-                  CGPA: {edu.cgpa}
-                </div>
-              )}
+              {/* Right Side */}
+              <div className="flex flex-col items-end text-sm text-gray-800 whitespace-nowrap pl-4">
+                {edu.startDate && (
+                  <div>
+                    {edu.endDate
+                      ? `${formatDate(edu.startDate, "yy")}–${formatDate(
+                          edu.endDate,
+                          "yyyy",
+                        )}`
+                      : formatDate(edu.startDate, "yyyy")}
+                  </div>
+                )}
+                {edu.cgpa && <div>CGPA: {edu.cgpa}</div>}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </>
   );
@@ -383,7 +388,10 @@ export function SkillsSection({ resumeData }: ResumeSectionProps) {
 
       <div className="">
         {skills.map(({ category, values }, i) => (
-          <div key={i} className="flex items-start gap-1 px-2">
+          <div
+            key={i}
+            className="flex items-start gap-1 px-2 break-after-avoid"
+          >
             <span className="text-base leading-none text-gray-800">•</span>
             <div className="flex gap-1 flex-wrap">
               {category && (
