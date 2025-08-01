@@ -27,7 +27,7 @@ export default async function page() {
   ]);
 
   return (
-    <main className="relative  max-w-7xl mx-auto w-full px-6 py-24">
+    <main className=" w-full  ">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-10">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
@@ -52,7 +52,7 @@ export default async function page() {
       </div>
 
       {resumes.length === 0 ? (
-        <div className="relative max-w-2xl mx-auto px-6 sm:px-8 lg:px-10 py-14 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 animate-fade-in">
+        <div className="max-w-2xl mx-auto px-6 sm:px-8 lg:px-10 py-14 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 animate-fade-in">
           <EmptyResume />
         </div>
       ) : (

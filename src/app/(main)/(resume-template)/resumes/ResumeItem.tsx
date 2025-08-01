@@ -25,7 +25,7 @@ import { toast } from "sonner";
 import { deleteResume } from "./action";
 import LoadingButton from "@/components/LoadingButton";
 import { useReactToPrint } from "react-to-print";
-import ShareResume from "../editor/ShareDialog";
+import ShareResume from "../../editor/ShareDialog";
 import { useRouter } from "next/navigation";
 
 interface ResumeItemProps {

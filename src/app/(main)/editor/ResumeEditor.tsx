@@ -11,6 +11,7 @@ import { cn, mapToResumeValues } from "@/lib/utils";
 import UseAutoSaveResume from "./UseAutoSaveResume";
 import useUnlodeWarning from "@/hooks/useUnlodeWarning";
 import { ResumeServerData } from "@/lib/type";
+import { ResumeTemplate } from "@prisma/client";
 
 interface ResumeFormProps {
   resumeToEdit: ResumeServerData | null;
@@ -22,10 +23,21 @@ export default function ResumeEditor({
   contentRef,
 }: ResumeFormProps) {
   const searchParams = useSearchParams();
+  const rawTemplate = searchParams.get("template");
 
-  const [resumeData, setResumeData] = useState<ResumeType>(
-    resumeToEdit ? mapToResumeValues(resumeToEdit) : {},
-  );
+  const template = Object.values(ResumeTemplate).includes(
+    rawTemplate as ResumeTemplate,
+  )
+    ? (rawTemplate as ResumeTemplate)
+    : undefined;
+
+  const [resumeData, setResumeData] = useState<ResumeType>(() => {
+    if (resumeToEdit) {
+      return mapToResumeValues(resumeToEdit);
+    }
+    return template ? { template } : {};
+  });
+
   const [showSmResumePreview, setShowSmRensumePreview] =
     useState<boolean>(false);
   const { isSaving, hasUnsavedChanges } = UseAutoSaveResume(resumeData);
