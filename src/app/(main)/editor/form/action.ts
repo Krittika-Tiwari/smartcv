@@ -1,6 +1,8 @@
 "use server";
 import genAI from "@/lib/gemini";
 import {
+  generateProjectSchema,
+  GenerateProjectType,
   generateSummerySchema,
   GenerateSummeryType,
   generateWorkExperienceSchema,
@@ -107,8 +109,8 @@ You are a job resume generator AI.
 Your task: Return a JSON object with ALL of these fields:
 - position (string)
 - company (string)
-- startDate (YYYY-MM-DD or null)
-- endDate (YYYY-MM-DD or null)
+- startDate (YYYY-MM-DD)
+- endDate (YYYY-MM-DD)
 - description (string) → must contain **at least 3 bullet points**, each bullet starting with "- " and separated by "\\n".
 
 Guidelines for description:
@@ -116,7 +118,7 @@ Guidelines for description:
 - Include specific responsibilities, tools/technologies used, and measurable achievements.
 - Expand on user input — infer additional realistic details if needed.
 - Avoid generic filler like "worked hard" or "did my job".
-- If dates are not given, set them to null.
+- If dates are not given, add random dates.
 
 User's provided description:
 ${description}
@@ -142,6 +144,65 @@ ${description}
           startDate: { type: SchemaType.STRING },
           endDate: { type: SchemaType.STRING },
           description: { type: SchemaType.STRING },
+        },
+      },
+    },
+  });
+
+  // Generate content
+  const result = await model.generateContent({
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+  });
+
+  const response = await result.response;
+  const jsonText = await response.text();
+
+  const cleanJsonText = jsonText.replace(/^```json\n|```$/g, "");
+  console.log(cleanJsonText, "Clean json text");
+
+  const parsedResponse = JSON.parse(cleanJsonText);
+
+  return parsedResponse;
+}
+
+export async function generateProject(input: GenerateProjectType) {
+  const { description } = generateProjectSchema.parse(input);
+  console.log(description, "Project description");
+
+  const prompt = `
+You are a job resume generator AI.
+Your task: Return a JSON object with ALL of these fields:
+- name (string)
+- description (string) → must contain **at least 3 bullet points**, each bullet starting with "- " and separated by "\\n".
+- stack (array of strings)
+- startDate (YYYY-MM-DD)
+- endDate (YYYY-MM-DD)
+
+Guidelines for description:
+- Make bullets detailed and professional.
+- Include specific responsibilities, tools/technologies used, and measurable achievements.
+- Expand on user input — infer additional realistic details if needed.
+- Avoid generic filler like "worked hard" or "did my job".
+- If dates are not given, add random dates.
+
+User's provided description:
+${description}
+`;
+
+  // Initialize the Gemini model
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.0-flash",
+    generationConfig: {
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: SchemaType.OBJECT,
+        required: ["name", "description", "stack", "startDate", "endDate"],
+        properties: {
+          name: { type: SchemaType.STRING },
+          description: { type: SchemaType.STRING },
+          stack: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
+          startDate: { type: SchemaType.STRING },
+          endDate: { type: SchemaType.STRING },
         },
       },
     },
