@@ -175,6 +175,17 @@ export type GenerateWorkExperienceType = z.infer<
   typeof generateWorkExperienceSchema
 >;
 
+
+export const generateProjectSchema = z.object({
+  description: z
+    .string()
+    .trim()
+    .min(1, "Description is required")
+    .min(20, "Description must be at least 20 characters"),
+});
+
+export type GenerateProjectType = z.infer<typeof generateProjectSchema>;
+
 export const generateSummerySchema = z.object({
   jobTitle: optionalString,
   ...workExperienceSchema.shape,

@@ -107,8 +107,8 @@ You are a job resume generator AI.
 Your task: Return a JSON object with ALL of these fields:
 - position (string)
 - company (string)
-- startDate (YYYY-MM-DD or null)
-- endDate (YYYY-MM-DD or null)
+- startDate (YYYY-MM-DD)
+- endDate (YYYY-MM-DD)
 - description (string) → must contain **at least 3 bullet points**, each bullet starting with "- " and separated by "\\n".
 
 Guidelines for description:
