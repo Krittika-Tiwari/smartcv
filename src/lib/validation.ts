@@ -58,7 +58,9 @@ export const workExperienceSchema = z.object({
 });
 
 export type WorkExperienceType = z.infer<typeof workExperienceSchema>;
-export type WorkExperience = NonNullable<z.infer<typeof workExperienceSchema>["workExperiences"]>[number];
+export type WorkExperience = NonNullable<
+  z.infer<typeof workExperienceSchema>["workExperiences"]
+>[number];
 
 export const eductionSchema = z.object({
   educations: z
@@ -74,7 +76,6 @@ export const eductionSchema = z.object({
     .optional(),
 });
 export type EducationType = z.infer<typeof eductionSchema>;
-
 
 export const projectSchema = z.object({
   projects: z
@@ -93,6 +94,9 @@ export const projectSchema = z.object({
 });
 
 export type ProjectType = z.infer<typeof projectSchema>;
+export type Project = NonNullable<
+  z.infer<typeof projectSchema>["projects"]
+>[number];
 
 export const skillSchema = z.object({
   skills: z
@@ -174,7 +178,6 @@ export const generateWorkExperienceSchema = z.object({
 export type GenerateWorkExperienceType = z.infer<
   typeof generateWorkExperienceSchema
 >;
-
 
 export const generateProjectSchema = z.object({
   description: z

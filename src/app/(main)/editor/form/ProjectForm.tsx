@@ -35,6 +35,7 @@ import {
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
+import GenerateProjectButton from "./GenerateProjectButton";
 
 export default function ProjectForm({
   resumeData,
@@ -168,6 +169,13 @@ function ProjectItems({ form, index, remove, id }: ProjectItemsProps) {
           className="size-5 cursor-grab text-muted-foreground focus:outline-none"
           {...attributes}
           {...listeners}
+        />
+      </div>
+      <div className="flex justify-center">
+        <GenerateProjectButton
+          onProjectGenerated={(project) => {
+            form.setValue(`projects.${index}`, project);
+          }}
         />
       </div>
       <FormField
