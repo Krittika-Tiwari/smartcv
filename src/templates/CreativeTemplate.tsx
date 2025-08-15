@@ -328,7 +328,7 @@ function WorkExperisionSection({ resumeData }: ResumeSectionProps) {
           style={{ borderColor: colorHex }}
         />
         {workExperiencesNotEmpty.map((exp, index) => (
-          <div key={index} className="flex gap-1 items-start break-after-avoid">
+          <div key={index} className="flex gap-1 items-start ">
             <span className="text-base leading-none">•</span>
             <div className="space-y-1 w-full">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
@@ -371,7 +371,7 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
 
   return (
     <>
-      <div className=" space-y-2 break-inside-avoid font-serif">
+      <div className=" space-y-2  font-serif">
         <h2
           className="text-base font-semibold uppercase tracking-wide mb-0 font-serif "
           style={{ color: colorHex }}
@@ -383,7 +383,7 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
           style={{ borderColor: colorHex }}
         />
         {projectsNotEmpty.map((pro, index) => (
-          <div key={index} className="break-after-avoid space-y-1">
+          <div key={index} className="space-y-1">
             <div className="flex items-start gap-1">
               <span className="text-base leading-none text-gray-800">•</span>
               <div className="flex-1 space-y-1">
@@ -449,7 +449,7 @@ export function SkillsSection({ resumeData }: ResumeSectionProps) {
   if (!skills || skills.length === 0) return null;
 
   return (
-    <div className="space-y-2 break-inside-avoid font-serif">
+    <div className="space-y-2 break-after-avoid  font-serif">
       <h2
         className="text-base font-semibold uppercase tracking-wide mb-0 font-serif"
         style={{ color: colorHex }}
@@ -463,10 +463,7 @@ export function SkillsSection({ resumeData }: ResumeSectionProps) {
 
       <div className="space-y-1">
         {skills.map(({ category, values }, i) => (
-          <div
-            key={i}
-            className="flex items-start gap-1 break-inside-avoid px-2"
-          >
+          <div key={i} className="flex items-start gap-1  px-2">
             <span className="text-base leading-none text-gray-800">•</span>
             <div className="flex gap-1 flex-wrap">
               {category && (
@@ -495,7 +492,7 @@ function AchievementSection({ resumeData }: ResumeSectionProps) {
   if (!achievementsNotEmpty?.length) return null;
 
   return (
-    <div className="space-y-2 break-inside-avoid font-serif">
+    <div className="space-y-2  font-serif">
       <h2
         className="text-base font-semibold uppercase tracking-wide mb-0"
         style={{ color: colorHex }}
@@ -508,7 +505,7 @@ function AchievementSection({ resumeData }: ResumeSectionProps) {
       />
 
       {achievementsNotEmpty.map((ach, index) => (
-        <div key={index} className="break-inside-avoid space-y-1">
+        <div key={index} className=" space-y-1">
           <div className="flex items-start gap-1">
             <span className="text-base leading-none text-gray-800">•</span>
             <div className="flex-1">
