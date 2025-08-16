@@ -81,7 +81,7 @@ You can get your Gemini API key from [Google AI Studio](https://aistudio.google.
 
 - Never commit your `.env` file with real secrets to public repositories.
 - Clerk keys are for authentication; see [Clerk Docs](https://clerk.com/docs) for setup.
-- Vercel Blob is used for file storage; see [Vercel Blob Docs](https://vercel.com/docs/storage/vercel-blob)
+- Vercel Blob is used for file storage; see [Vercel Blob Docs](https://vercel.com/docs/storage/vercel-blob).
 
 ### Running the App
 
