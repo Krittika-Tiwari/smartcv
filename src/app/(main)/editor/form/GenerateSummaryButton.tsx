@@ -19,9 +19,19 @@ export default function GenerateSummaryButton({
     try {
       setLoading(true);
       const aiResponse = await generateSummary(resumeData);
+
+      if ("error" in aiResponse) {
+        toast.error(aiResponse.error);
+        return;
+      }
+
       onSummaryGenerated(aiResponse.summary);
-    } catch {
-      toast.error("Failed to generate summary. Please try again.");
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to generate summary. Please try again.",
+      );
     } finally {
       setLoading(false);
     }

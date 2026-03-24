@@ -83,10 +83,20 @@ function InputDialog({
   async function onSubmit(input: GenerateProjectType) {
     try {
       const response = await generateProject(input);
+
+      if ("error" in response) {
+        toast.error(response.error);
+        return;
+      }
+
       onProjectGenerated(response);
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong. Please try again.");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
     }
   }
 
