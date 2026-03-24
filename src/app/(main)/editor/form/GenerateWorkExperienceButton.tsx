@@ -83,10 +83,20 @@ function InputDialog({
   async function onSubmit(input: GenerateWorkExperienceType) {
     try {
       const response = await generateWorkExperience(input);
+
+      if ("error" in response) {
+        toast.error(response.error);
+        return;
+      }
+
       onWorkExperienceGenerated(response);
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong. Please try again.");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
     }
   }
 

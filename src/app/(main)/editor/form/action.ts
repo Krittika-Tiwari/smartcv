@@ -10,6 +10,40 @@ import {
 } from "./../../../../lib/validation";
 import { SchemaType } from "@google/generative-ai";
 
+type AiActionError = { error: string };
+
+function getAiGenerationErrorMessage(error: unknown, context: string): string {
+  const status =
+    typeof error === "object" &&
+    error !== null &&
+    "status" in error &&
+    typeof (error as { status?: unknown }).status === "number"
+      ? (error as { status: number }).status
+      : undefined;
+
+  const rawMessage =
+    error instanceof Error
+      ? error.message
+      : typeof error === "string"
+        ? error
+        : "";
+
+  const isQuotaOrRateLimit =
+    status === 429 ||
+    /too many requests|quota exceeded|rate\s*limit/i.test(rawMessage);
+
+  if (isQuotaOrRateLimit) {
+    const retryMatch = rawMessage.match(/retry in\s+([\d.]+)s/i);
+    const retryIn = retryMatch?.[1]
+      ? ` Please retry in about ${Math.ceil(Number(retryMatch[1]))}s.`
+      : " Please retry after a short wait.";
+
+    return `AI ${context} is temporarily unavailable because the Gemini quota/rate limit was exceeded.${retryIn}`;
+  }
+
+  return `Failed to generate ${context}. Please try again.`;
+}
+
 /**
  * @description Generates a professional resume summary using the Gemini API.
  * This version now returns the full parsed JSON object for the client.
@@ -62,7 +96,7 @@ ${achievements?.map((ach) => `- ${ach.title || "N/A"} (${ach.issuer || "N/A"})`)
 
     // 3. Initialize the model with the generation configuration to specifically request a JSON response.
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
+      model: "gemini-2.5-flash",
       generationConfig: {
         responseMimeType: "application/json",
         responseSchema: {
@@ -92,19 +126,20 @@ ${achievements?.map((ach) => `- ${ach.title || "N/A"} (${ach.issuer || "N/A"})`)
   } catch (error) {
     console.error("An error occurred while generating the summary:", error);
     return {
-      summary:
-        "An error occurred while generating the summary. Please check your input and try again.",
-    };
+      summary: "",
+      error: getAiGenerationErrorMessage(error, "summary"),
+    } as const;
   }
 }
 
 export async function generateWorkExperience(
   input: GenerateWorkExperienceType,
 ) {
-  const { description } = generateWorkExperienceSchema.parse(input);
-  console.log(description, "Work experience description");
+  try {
+    const { description } = generateWorkExperienceSchema.parse(input);
+    console.log(description, "Work experience description");
 
-  const prompt = `
+    const prompt = `
 You are a job resume generator AI.
 Your task: Return a JSON object with ALL of these fields:
 - position (string)
@@ -124,52 +159,59 @@ User's provided description:
 ${description}
 `;
 
-  // Initialize the Gemini model
-  const model = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash",
-    generationConfig: {
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        required: [
-          "position",
-          "company",
-          "startDate",
-          "endDate",
-          "description",
-        ],
-        properties: {
-          position: { type: SchemaType.STRING },
-          company: { type: SchemaType.STRING },
-          startDate: { type: SchemaType.STRING },
-          endDate: { type: SchemaType.STRING },
-          description: { type: SchemaType.STRING },
+    // Initialize the Gemini model
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
+      generationConfig: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: SchemaType.OBJECT,
+          required: [
+            "position",
+            "company",
+            "startDate",
+            "endDate",
+            "description",
+          ],
+          properties: {
+            position: { type: SchemaType.STRING },
+            company: { type: SchemaType.STRING },
+            startDate: { type: SchemaType.STRING },
+            endDate: { type: SchemaType.STRING },
+            description: { type: SchemaType.STRING },
+          },
         },
       },
-    },
-  });
+    });
 
-  // Generate content
-  const result = await model.generateContent({
-    contents: [{ role: "user", parts: [{ text: prompt }] }],
-  });
+    // Generate content
+    const result = await model.generateContent({
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+    });
 
-  const response = await result.response;
-  const jsonText = await response.text();
+    const response = await result.response;
+    const jsonText = await response.text();
 
-  const cleanJsonText = jsonText.replace(/^```json\n|```$/g, "");
-  console.log(cleanJsonText, "Clean json text");
+    const cleanJsonText = jsonText.replace(/^```json\n|```$/g, "");
+    console.log(cleanJsonText, "Clean json text");
 
-  const parsedResponse = JSON.parse(cleanJsonText);
+    const parsedResponse = JSON.parse(cleanJsonText);
 
-  return parsedResponse;
+    return parsedResponse;
+  } catch (error) {
+    console.error("An error occurred while generating work experience:", error);
+    return {
+      error: getAiGenerationErrorMessage(error, "work experience"),
+    } satisfies AiActionError;
+  }
 }
 
 export async function generateProject(input: GenerateProjectType) {
-  const { description } = generateProjectSchema.parse(input);
-  console.log(description, "Project description");
+  try {
+    const { description } = generateProjectSchema.parse(input);
+    console.log(description, "Project description");
 
-  const prompt = `
+    const prompt = `
 You are a job resume generator AI.
 Your task: Return a JSON object with ALL of these fields:
 - name (string)
@@ -189,37 +231,46 @@ User's provided description:
 ${description}
 `;
 
-  // Initialize the Gemini model
-  const model = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash",
-    generationConfig: {
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: SchemaType.OBJECT,
-        required: ["name", "description", "stack", "startDate", "endDate"],
-        properties: {
-          name: { type: SchemaType.STRING },
-          description: { type: SchemaType.STRING },
-          stack: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-          startDate: { type: SchemaType.STRING },
-          endDate: { type: SchemaType.STRING },
+    // Initialize the Gemini model
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
+      generationConfig: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: SchemaType.OBJECT,
+          required: ["name", "description", "stack", "startDate", "endDate"],
+          properties: {
+            name: { type: SchemaType.STRING },
+            description: { type: SchemaType.STRING },
+            stack: {
+              type: SchemaType.ARRAY,
+              items: { type: SchemaType.STRING },
+            },
+            startDate: { type: SchemaType.STRING },
+            endDate: { type: SchemaType.STRING },
+          },
         },
       },
-    },
-  });
+    });
 
-  // Generate content
-  const result = await model.generateContent({
-    contents: [{ role: "user", parts: [{ text: prompt }] }],
-  });
+    // Generate content
+    const result = await model.generateContent({
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+    });
 
-  const response = await result.response;
-  const jsonText = await response.text();
+    const response = await result.response;
+    const jsonText = await response.text();
 
-  const cleanJsonText = jsonText.replace(/^```json\n|```$/g, "");
-  console.log(cleanJsonText, "Clean json text");
+    const cleanJsonText = jsonText.replace(/^```json\n|```$/g, "");
+    console.log(cleanJsonText, "Clean json text");
 
-  const parsedResponse = JSON.parse(cleanJsonText);
+    const parsedResponse = JSON.parse(cleanJsonText);
 
-  return parsedResponse;
+    return parsedResponse;
+  } catch (error) {
+    console.error("An error occurred while generating the project:", error);
+    return {
+      error: getAiGenerationErrorMessage(error, "project"),
+    } satisfies AiActionError;
+  }
 }
