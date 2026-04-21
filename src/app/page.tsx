@@ -10,10 +10,21 @@ import {
 } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/theme-toggle";
+import JsonLd from "@/components/JsonLd";
 
 export default function Home() {
   return (
     <>
+      <JsonLd
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "SmartCV",
+          url: "https://smartcv.vercel.app/",
+          description:
+            "SmartCV is the easiest way to create a professional resume that will help you land your dream job.",
+        }}
+      />
       <div className="fixed inset-0 -z-10 h-full w-full">
         <div className="h-full w-full bg-[radial-gradient(125%_125%_at_50%_10%,#f0f0ff_40%,#b5b5f5_100%)] dark:bg-none" />
         <div className="absolute inset-0 hidden dark:block bg-[radial-gradient(125%_125%_at_50%_10%,#0f0f1f_40%,#5b5bd6_100%)]" />
